@@ -5,6 +5,7 @@
  */
 
 #include "tinyclunx33_rtl.dtsi"
+#include "boot_0x200000.dtsi"
 
 /* Starting from RTL 1.1, devices boot at 0x200000 instead of 0x200000 */
 
@@ -15,3 +16,5 @@
 &slot0_partition {
 	reg = <0x200000 0x100000>;
 };
+
+#include "boot_0x200000.dtsi"

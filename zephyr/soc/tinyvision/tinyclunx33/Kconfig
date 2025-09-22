@@ -21,4 +21,8 @@ config LITEX_CSR_DATA_WIDTH
 	int "LiteX Control/Status registers are 32-bit as used by litex,uart"
 	default 32
 
+config CODE_DATA_RELOCATION
+	depends on SPI
+	default y
+
 endif # SOC_SERIES_TINYCLUNX33
