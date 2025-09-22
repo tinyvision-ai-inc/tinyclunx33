@@ -5,3 +5,4 @@
  */
 
 #include "tinyclunx33_rtl.dtsi"
+#include "boot_0x100000.dtsi"
