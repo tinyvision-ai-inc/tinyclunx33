@@ -1,0 +1,11 @@
+config FLASH_TINYVISION
+	bool "tinyVision Flash driver"
+	default y
+	depends on DT_HAS_TINYVISION_FLASH_ENABLED
+	select FLASH_HAS_DRIVER_ENABLED
+	select FLASH_HAS_PAGE_LAYOUT
+	select FLASH_HAS_EXPLICIT_ERASE
+	select CODE_DATA_RELOCATION
+	help
+	  Enable support for tinyVision Flash driver
+
