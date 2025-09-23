@@ -7,11 +7,11 @@
 / {
 	chosen {
 		zephyr,code-partition = &slot0_partition;
-		zephyr,flash = &flash0;
 	};
+
 };
 
-&flash0 {
+&flashctrl {
 	partitions {
 		compatible = "fixed-partitions";
 		#address-cells = <1>;
