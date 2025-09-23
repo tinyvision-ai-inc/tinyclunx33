@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        soc_version: ["rtl_1_0", "rtl_1_1"]
+        soc_version: ["rtl_1_0", "rtl_1_1", "rtl_1_2"]
         application: ["zephyr_cdc_raw", "zephyr_shell", "zephyr_minimal"]
     steps:
 
