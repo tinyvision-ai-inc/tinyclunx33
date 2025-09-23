@@ -39,12 +39,6 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 
-		flashctrl: flash-controller@e001f000 {
-			compatible = "tinyvision,flash"; 
-			reg = <0xe001f000 0x30>; 
-			#address-cells = <1>; 
-			#size-cells = <1>; 
-		};
 
 		/* Core SoC soft-peripherals */
 		sram0: memory@40000000 {
