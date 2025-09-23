@@ -20,9 +20,16 @@ config SOC_TINYCLUNX33_RTL_1_1
 	help
 	  The tinyCLUNX33 RTL v1.1.* releases.
 
+config SOC_TINYCLUNX33_RTL_1_2
+	bool "tinyCLUNX33 RTL v1.2.* releases"
+	select SOC_SERIES_TINYCLUNX33
+	help
+	  The tinyCLUNX33 RTL v1.2.* releases.
+
 config SOC_SERIES
 	default "tinyclunx33" if SOC_SERIES_TINYCLUNX33
 
 config SOC
 	default "rtl_1_0" if SOC_TINYCLUNX33_RTL_1_0
 	default "rtl_1_1" if SOC_TINYCLUNX33_RTL_1_1
+	default "rtl_1_2" if SOC_TINYCLUNX33_RTL_1_2
