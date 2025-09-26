@@ -16,3 +16,7 @@ properties:
 
   clock-frequency:
     required: true
+
+  rtl-version:
+    type: int
+    description: 0 for litex RTL, 1 for opencores
