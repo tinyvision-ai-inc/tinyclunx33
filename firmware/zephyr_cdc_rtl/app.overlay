@@ -1,0 +1,15 @@
+/*
+ * Copyright (c) 2025 tinyVision.ai Inc.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&zephyr_udc0 {
+	num-in-endpoints = <3>;
+	num-out-endpoints = <2>;
+	status = "okay";
+
+	cdc0: zephyr_cdc0 {
+		compatible = "zephyr,cdc-raw";
+	};
+};
