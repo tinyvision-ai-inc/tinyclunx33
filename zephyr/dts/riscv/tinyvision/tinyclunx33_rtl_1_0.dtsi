@@ -1,8 +1,44 @@
 /*
- * Copyright (c) 2024 tinyVision.ai Inc.
+ * Copyright (c) tinyVision.ai Inc.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 #include "tinyclunx33_rtl.dtsi"
-#include "boot_0x100000.dtsi"
+/ {
+	chosen {
+		zephyr,code-partition = &slot0_partition;
+		zephyr,flash = &flash0;
+	};
+
+	soc {
+		compatible = "tinyvision,tinyclunx33";
+		ranges;
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		flash0: flash@20000000 {
+			compatible = "soc-nv-flash";
+			reg = <0x20000000 0x100000>;
+		};
+	};
+
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		boot_partition: partition@0 {
+			label = "fpga";
+			reg = <0x000000 0x100000>;
+		};
+
+		slot0_partition: partition@100000 {
+			label = "image-0";
+			reg = <0x100000 0x100000>;
+		};
+	};
+};
