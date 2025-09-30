@@ -100,11 +100,6 @@ The tinyCLUNX33 platform consists of several elements stacked on each others:
   describing the elements present on the tinyCLUNX33 module, defined at the Zephyr level as a
   [board](https://docs.zephyrproject.org/latest/hardware/porting/board_porting.html).
 
-* **Devkit:**
-  ([`boards/shields/tinyclunx33_devkit`](https://github.com/tinyvision-ai-inc/tinyvision_zephyr_sdk/tree/main/boards/shields/tinyclunx33_devkit))
-  describing the devkit carrier board on which the tinyCLUNX33 module plugs into, defined at the
-  Zephyr level as a [shield](https://docs.zephyrproject.org/latest/hardware/porting/shields.html).
-
 
 ## Zephyr Devicetree Configuraton
 
@@ -118,24 +113,23 @@ hardware or RTL. The `west build` command allow to specify which version exactly
 
 The top level definition of the devicetree happens in the board directory, but these are only
 1-line wrappers over the full configuration, located in the
-[`dts/riscv/tinyvision`](https://github.com/tinyvision-ai-inc/tinyvision_zephyr_sdk/tree/main/dts/riscv/tinyvision)
+[`dts/riscv/tinyvision`](https://github.com/tinyvision-ai-inc/tinyclunx33/tree/main/zephyr/dts/riscv/tinyvision)
 directory where all the content is:
 
-* **`tinyclunx33_add_...`:** These files can be included to add an extra block of ready-made
-  configuration to a design. For instance, the
-  [`tinyclunx33_add_opencores_i2c.dtsi`](https://github.com/tinyvision-ai-inc/tinyvision_zephyr_sdk/blob/main/dts/riscv/tinyvision/tinyclunx33_add_opencores_i2c.dtsi)
-  file *or* the
-  [`tinyclunx33_add_litex_i2c.dtsi`](https://github.com/tinyvision-ai-inc/tinyvision_zephyr_sdk/blob/main/dts/riscv/tinyvision/tinyclunx33_add_litex_i2c.dtsi)
-  file can be included to configure which I2C peripheral is present.
+* **`tinyclunx33_rtl_...`:** in the
+  [public repo](https://github.com/tinyvision-ai-inc/tinyclunx33/tree/main/zephyr/dts/riscv/tinyvision/)
+  These files contain the top-level configuration for the various SoCs, describing all their content
+  except the video-related content.
 
-* **`tinyclunx33_rtl...`:** These files contain the top-level configuration for the various SoCs,
-  describing all their content, and including the other `tinyclunx33_add_...` files to fill their
-  configuration.
+* **`tinyclunx33_video`:** in the
+  [private repo](https://github.com/tinyvision-ai-inc/priv-tvai-usb/tree/main/zephyr/dts/riscv/tinyvision/),
+  describes all the video peripherals, but does not activate or interconnect them.
 
-* **`tinyclunx33_custom.dtsi`:** This file serves as a minimal starting point for implementing a
-  custom SoC. This allows application `app.overlay` configuration to define their own custom
-  pipeline from the base SoC provided by tinyVision.ai, only selecting the drivers for which a
-  peripheral is actually present.
+* **`from_..._to_...`:** in the
+  [private repo](https://github.com/tinyvision-ai-inc/priv-tvai-usb/tree/main/zephyr/dts/riscv/tinyvision/),
+  are ready-made blocks that describe the interconnection between video devices.
+  After including `tinyclunx33_video.dtsi`, include the blocks you need to describe a chain
+  of configuration that reflects your RTL topology.
 
 
 ## Building a firmware for a particular SoC
