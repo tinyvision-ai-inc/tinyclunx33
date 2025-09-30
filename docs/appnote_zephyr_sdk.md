@@ -54,19 +54,24 @@ Assuming a Board Rev2, a Devkit Rev2, and SoC RTLv1.0.3 being used:
    west update
    ```
 
-4. Build a sample application from this example repository, for instance `zephyr_cdc_raw` for
+4. Apply the patch for upstream USB 3 support.
+   ```
+   west patch apply
+   ```
+
+5. Build a sample application from this example repository, for instance `zephyr_cdc_raw` for
    [RTLv1.0.3](https://github.com/tinyvision-ai-inc/tinyclunx33/releases/tag/rtl_1_0_3).
    ```
    cd tinyclunx33/firmware/zephyr_cdc_raw
    west build --board tinyclunx33@rev2/rtl_1_0
    ```
 
-5. Then, program the firmware into the devkit, with the DEBUG interface connected.
+6. Then, program the firmware into the devkit, with the DEBUG interface connected.
    ```
    west flash
    ```
 
-6. Disconnect and reconnect the USB ports to power cycle the board, then you can see
+7. Disconnect and reconnect the USB ports to power cycle the board, then you can see
    logs by connecting the DEBUG interface and use the 2nd serial console that shows-up,
    such as `/dev/ttyUSB1` in Linux, at baud rate `156200`. Once connected, press the reset
    switch (`SW2` on the Devkit Rev 2) to see the early boot logs appear.
