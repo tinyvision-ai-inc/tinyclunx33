@@ -46,7 +46,7 @@ class EcpprogHookBinaryRunner(ZephyrBinaryRunner):
             help='SSH host to connect to (optional)'
         )
         parser.add_argument(
-            '--mpremote', dest='mpremote', default='.local/bin/mpremote',
+            '--mpremote', dest='mpremote', default='mpremote',
             help='Path to the mpremote binary on the remote host'
         )
         parser.add_argument(
@@ -58,7 +58,7 @@ class EcpprogHookBinaryRunner(ZephyrBinaryRunner):
             help='Script to load with mpremote. Set multiple times to run several scripts.'
         )
         parser.add_argument(
-            '--ecpprog', dest='ecpprog', default='.local/bin/ecpprog',
+            '--ecpprog', dest='ecpprog', default='ecpprog',
             help='Path to the ecpprog binary on the remote host'
         )
         parser.add_argument(
