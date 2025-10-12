@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/*
+ * Original RTL releases that use LiteX
+ *
+ * They use 0x100000 as boot address.
+ */
+
 #include "tinyclunx33_rtl.dtsi"
+
 / {
 	chosen {
 		zephyr,code-partition = &slot0_partition;

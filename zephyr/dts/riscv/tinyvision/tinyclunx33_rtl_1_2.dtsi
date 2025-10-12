@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/*
+ * RTL v1.2.x are all the releases that have migrated from LiteX to SpineX.
+ *
+ * They use 0x200000 as boot address.
+ */
+
 #include "tinyclunx33_rtl.dtsi"
 #include <mem.h>
 
 / {
 	chosen {
 		zephyr,code-partition = &slot0_partition;
-		zephyr,flash = &flash0; 
+		zephyr,flash = &flash0;
 		zephyr,flash-controller = &flashctrl;
 	};
 
