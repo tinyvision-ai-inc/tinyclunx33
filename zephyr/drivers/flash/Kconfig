@@ -3,6 +3,7 @@
 
 if FLASH
 
+rsource "Kconfig.memcpy"
 rsource "Kconfig.tinyvision"
 
 endif

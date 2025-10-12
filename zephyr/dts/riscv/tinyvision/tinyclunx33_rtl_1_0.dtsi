@@ -11,22 +11,27 @@
  */
 
 #include "tinyclunx33_rtl.dtsi"
+#include <mem.h>
 
 / {
 	chosen {
 		zephyr,code-partition = &slot0_partition;
 		zephyr,flash = &flash0;
+		zephyr,flash-controller = &flashctrl;
 	};
 
 	soc {
-		compatible = "tinyvision,tinyclunx33";
-		ranges;
-		#address-cells = <1>;
-		#size-cells = <1>;
+		flashctrl: flashctrl {
+			compatible = "zephyr,flash-memcpy";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
-		flash0: flash@20000000 {
-			compatible = "soc-nv-flash";
-			reg = <0x20000000 0x1000000>;
+			flash0: flash@20000000 {
+				compatible = "soc-nv-flash";
+				reg = <0x20000000 0x1000000>;
+				write-block-size = <256>;
+				erase-block-size = <DT_SIZE_K(4)>;
+			};
 		};
 	};
 };
@@ -50,6 +55,8 @@
 		storage_partition: partition@300000 {
 			label = "storage";
 			reg = <0x300000 0xC00000>;
+			/* No flash controller support yet */
+			read-only;
 		};
 	};
 };
