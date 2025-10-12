@@ -60,7 +60,7 @@ jobs:
     strategy:
       matrix:
         soc_version: ["rtl_1_0", "rtl_1_1", "rtl_1_2"]
-        application: ["usb_cdc_raw", "usb_cdc_shell", "minimal"]
+        application: ["usb_cdc_raw", "usb_cdc_shell", "usb_msc_readonly", "minimal"]
     steps:
 
       - name: Generate the cache key

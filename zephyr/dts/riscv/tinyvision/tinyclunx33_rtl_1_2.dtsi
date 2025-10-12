@@ -21,9 +21,6 @@
 	};
 
 	soc {
-		compatible = "tinyvision,tinyclunx33";
-		ranges;
-
 		flashctrl: flash-controller@e001f000 {
 			compatible = "tinyvision,flash";
 			reg = <0xe0001000 0x30>;

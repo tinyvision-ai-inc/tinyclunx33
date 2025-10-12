@@ -13,3 +13,4 @@ manifest:
       import:
         name-allowlist:
           - zephyr
+          - fatfs
