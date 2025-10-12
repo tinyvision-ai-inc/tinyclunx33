@@ -1,0 +1,8 @@
+# Copyright (c) 2025 tinyVision.ai
+# SPDX-License-Identifier: Apache-2.0
+
+description: memcpy-based flash controller
+
+compatible: "zephyr,flash-memcpy"
+
+include: base.yaml

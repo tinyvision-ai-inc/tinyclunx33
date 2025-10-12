@@ -1,0 +1,11 @@
+# Copyright (c) 2025 tinyVision.ai Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+config FLASH_MEMCPY
+	bool "Read-only memcpy()-based flash driver"
+	default y
+	depends on DT_HAS_ZEPHYR_FLASH_MEMCPY_ENABLED
+	select FLASH_HAS_DRIVER_ENABLED
+	select FLASH_HAS_PAGE_LAYOUT
+	help
+	  Enable support for memcpy()-based flash driver
