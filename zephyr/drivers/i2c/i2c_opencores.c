@@ -105,6 +105,13 @@ static uint8_t opencores_read(const struct device *dev, uint8_t reg)
 	return register_map[reg];
 }
 
+static void opencores_16b_write(const struct device *dev, uint8_t reg, uint16_t value)
+{
+	const struct i2c_opencores_cfg *cfg = GET_I2C_CFG(dev);
+	volatile uint16_t *register_map = (uint16_t *)cfg->base;
+	register_map[reg] = value;
+}
+
 #define NS_TO_SYS_CLOCK_HW_CYCLES(ns)                                                              \
 	((uint64_t)sys_clock_hw_cycles_per_sec() * (ns) / NSEC_PER_SEC + 1)
 
@@ -147,15 +154,21 @@ static int opencores_i2c_configure(const struct device *dev, uint32_t dev_config
 	case I2C_SPEED_ULTRA:
 		clock_cycles = NS_TO_SYS_CLOCK_HW_CYCLES(200);
 		context->t_buf_delay = NS_TO_SYS_CLOCK_HW_CYCLES(500);
+		break;
 	default:
 		return -ENOTSUP;
 	}
 	opencores_write(dev, OC_I2C_RESET, 1);
 	opencores_write(dev, OC_I2C_RESET, 0);
 	opencores_write(dev, OC_I2C_CTR, 0);
+
 	uint16_t prescale = ((clock_cycles + 4) / 5) - 1;
-	opencores_write(dev, OC_I2C_PRER_LO, prescale & 0xff);
-	opencores_write(dev, OC_I2C_PRER_HI, prescale >> 8);
+	if (GET_I2C_CFG(dev)->rtl_version == 0) {
+		opencores_16b_write(dev, OC_I2C_PRER_LO, prescale);
+	} else {
+		opencores_write(dev, OC_I2C_PRER_LO, prescale & 0xff);
+		opencores_write(dev, OC_I2C_PRER_HI, prescale >> 8);
+	}
 	context->dev_config = dev_config;
 
 	opencores_write(dev, OC_I2C_CTR, OC_I2C_EN);
