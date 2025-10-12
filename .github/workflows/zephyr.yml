@@ -60,7 +60,7 @@ jobs:
     strategy:
       matrix:
         soc_version: ["rtl_1_0", "rtl_1_1", "rtl_1_2"]
-        application: ["zephyr_cdc_raw", "zephyr_shell", "zephyr_minimal"]
+        application: ["usb_cdc_raw", "usb_cdc_shell", "minimal"]
     steps:
 
       - name: Generate the cache key
@@ -96,7 +96,7 @@ jobs:
       - name: Build the firmware samples
         run: |
           . ${{ env.ZEPHYRPROJECT }}/.venv/bin/activate
-          cd ${{ env.ZEPHYRPROJECT }}/${{ github.event.repository.name }}/firmware/${{ matrix.application }}
+          cd ${{ env.ZEPHYRPROJECT }}/${{ github.event.repository.name }}/zephyr/samples/${{ matrix.application }}
           west build -b "tinyclunx33@rev2/${{ matrix.soc_version }}"
           cp build/zephyr/zephyr.elf ${{ env.ZEPHYRPROJECT }}/tinyclunx33_${{ matrix.application }}_${{ matrix.soc_version }}_${{ steps.date.outputs.date }}_${{ github.sha }}.elf
           cp build/zephyr/zephyr.map ${{ env.ZEPHYRPROJECT }}/tinyclunx33_${{ matrix.application }}_${{ matrix.soc_version }}_${{ steps.date.outputs.date }}_${{ github.sha }}.map
