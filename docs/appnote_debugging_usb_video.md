@@ -488,17 +488,17 @@ The process will listen until it is killed.
 Using `scp`, download the file to your local destination.
 
 ```sh
-scp username@remote_host:/tmp/1.mon.out remote_usb_capture.out`
+scp username@remote_host:/tmp/1.mon.out remote_usb_capture.out
 ```
 
-### Convert the usbmon capture to `.pcap`
+### Convert the usbmon capture to pcap
 
 Using [this](https://github.com/johnkeeping/usbmon2pcap) conversion tool, it needs 
 `libpcap` to compile.
 
 Convert with
 ```sh
-./usbmon2pcap -o usb_capture.pcap remote_usb_capture.out`
+./usbmon2pcap -o usb_capture.pcap remote_usb_capture.out
 ```
 
 The output can be imported to wireshark for analysis.
