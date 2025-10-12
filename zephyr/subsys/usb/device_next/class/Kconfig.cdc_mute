@@ -1,0 +1,23 @@
+# Copyright (c) 2025 tinyVision.ai Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+config USBD_CDC_MUTE_CLASS
+	bool "USB CDC MUTE implementation [EXPERIMENTAL]"
+	help
+	  USB device CDC MUTE class implementation.
+
+if USBD_CDC_MUTE_CLASS
+
+config USBD_CDC_MUTE_STACK_SIZE
+	int "USB CDC MUTE workqueue stack size"
+	default 1024
+	help
+	  USB CDC MUTE workqueue stack size.
+
+module = USBD_CDC_MUTE
+module-str = usbd cdc_mute
+default-count = 1
+source "subsys/logging/Kconfig.template.log_config"
+
+endif

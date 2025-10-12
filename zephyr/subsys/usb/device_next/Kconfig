@@ -1,8 +1,9 @@
-# Copyright (c) 2024 tinyVision.ai Inc.
+# Copyright (c) 2025 tinyVision.ai Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 if USB_DEVICE_STACK_NEXT
 
 rsource "class/Kconfig.cdc_raw"
+rsource "class/Kconfig.cdc_mute"
 
 endif # USB_DEVICE_STACK_NEXT
