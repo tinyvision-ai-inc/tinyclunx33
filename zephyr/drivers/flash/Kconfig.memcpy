@@ -1,0 +1,7 @@
+config FLASH_MEMCPY
+	bool "Read-only memcpy()-based flash driver"
+	default y
+	depends on DT_HAS_ZEPHYR_FLASH_MEMCPY_ENABLED
+	select FLASH_HAS_DRIVER_ENABLED
+	help
+	  Enable support for memcpy()-based flash driver
