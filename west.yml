@@ -3,6 +3,10 @@
 
 manifest:
   projects:
+    - name: mcuboot
+      url: https://github.com/mcu-tools/mcuboot
+      revision: aa4fa2b6e17361dd3ce16a60883059778fd147a9
+
     - name: zephyr
       url: https://github.com/zephyrproject-rtos/zephyr
       revision: v4.2.0
@@ -10,4 +14,3 @@ manifest:
         name-allowlist:
           - zephyr
           - fatfs
-          - mcuboot
