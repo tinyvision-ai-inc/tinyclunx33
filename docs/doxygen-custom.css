@@ -23,7 +23,6 @@ html {
 }
 
 .grid > * {
-    background: #9d4c99;
     margin: 10px;
     text-align: center;
     width: 200px;
@@ -33,6 +32,7 @@ html {
 .grid a {
     link-decoration: none;
     color: #ffffff !important;
+    background: #9d4c99;
     font-weight: bold;
     border-radius: 10px;
 }
