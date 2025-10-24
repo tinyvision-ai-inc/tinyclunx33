@@ -7,6 +7,7 @@ board:
     revisions:
       - name: "rev1"
       - name: "rev2"
+      - name: "rev3"
   socs:
   - name: rtl_1_0
   - name: rtl_1_1

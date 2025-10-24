@@ -1,7 +1,7 @@
 # Copyright (c) 2024 tinyVision.ai Inc.
 # SPDX-License-Identifier: Apache-2.0
 
-set(VALID_BOARD_REVISIONS "rev1" "rev2")
+set(VALID_BOARD_REVISIONS "rev1" "rev2" "rev3")
 
 if(NOT BOARD_REVISION IN_LIST VALID_BOARD_REVISIONS)
     list(TRANSFORM VALID_BOARD_REVISIONS PREPEND "tinyclunx33@")
