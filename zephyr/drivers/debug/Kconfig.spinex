@@ -1,0 +1,8 @@
+# Copyright (c) 2025 Silicon Laboratories Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+config DEBUG_SPINEX_EVENT_LOGGER
+	bool "Spinex event logging interface"
+	default y
+	help
+	  Provide shell for spinex event logger
