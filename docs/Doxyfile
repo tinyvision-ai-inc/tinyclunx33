@@ -1,0 +1,64 @@
+PROJECT_NAME           = "tinyCLUNX33"
+PROJECT_BRIEF          = System on Module with CrosslinkU-NX
+OPTIMIZE_OUTPUT_FOR_C  = YES
+FILE_PATTERNS          = *.v *.vh *.sv *.svh *.md
+EXTENSION_MAPPING      = v=C++ vh=C++ sv=C++ svh=C++
+USE_MDFILE_AS_MAINPAGE = index.md
+HTML_COLORSTYLE        = LIGHT
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+
+INPUT = \
+.
+
+IMAGE_PATH = \
+images \
+pinout/tinyCLUNX33_devkit_Rev1 \
+pinout/tinyCLUNX33_devkit_Rev2
+
+HTML_EXTRA_FILES = \
+../hardware/tinyCLUNX33_MIPI_to_USB3_devkit/Rev1/tinyCLUNX33_MIPI_to_USB3_devkit_Rev1_photo_front.png \
+../hardware/tinyCLUNX33_MIPI_to_USB3_devkit/Rev1/tinyCLUNX33_MIPI_to_USB3_devkit_Rev1_schematic.pdf \
+../hardware/tinyCLUNX33_MIPI_to_USB3_devkit/Rev1/tinyCLUNX33_MIPI_to_USB3_devkit_Rev1_assembly.pdf \
+../hardware/tinyCLUNX33_MIPI_to_USB3_devkit/Rev2/tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_schematic.pdf \
+../hardware/tinyCLUNX33_MIPI_to_USB3_devkit/Rev2/tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_assembly.pdf \
+../hardware/tinyCLUNX33_MIPI_to_USB3_devkit/Rev2/tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_photo_front.jpg \
+../hardware/tinyCLUNX33_SoM_compute/Rev1/tinyCLUNX33_SoM_compute_Rev1_schematic.pdf \
+../hardware/tinyCLUNX33_SoM_compute/Rev1/tinyCLUNX33_SoM_compute_Rev1_photo_back.png \
+../hardware/tinyCLUNX33_SoM_compute/Rev1/tinyCLUNX33_SoM_compute_Rev1_photo_front.png \
+../hardware/tinyCLUNX33_SoM_compute/Rev1/tinyCLUNX33_SoM_compute_Rev1_assembly.pdf \
+../hardware/tinyCLUNX33_SoM_compute/Rev2/tinyCLUNX33_SoM_compute_Rev2_assembly.pdf \
+../hardware/tinyCLUNX33_SoM_compute/Rev2/tinyCLUNX33_SoM_compute_Rev2_photo_front.jpg \
+../hardware/tinyCLUNX33_SoM_compute/Rev2/tinyCLUNX33_SoM_compute_Rev2_schematic.pdf \
+../hardware/tinyCLUNX33_SoM_compute/Rev2/tinyCLUNX33_SoM_compute_Rev2_photo_back.jpg \
+../hardware/tinyCLUNX33_SoM_connectivity/Rev2/tinyCLUNX33_SoM_connectivity_Rev2_photo_back.jpg \
+../hardware/tinyCLUNX33_SoM_connectivity/Rev2/tinyCLUNX33_SoM_connectivity_Rev2_photo_front.jpg \
+../hardware/tinyCLUNX33_SoM_connectivity/Rev2/tinyCLUNX33_SoM_connectivity_Rev2_photo_front.png \
+../hardware/tinyCLUNX33_SoM_connectivity/Rev2/tinyCLUNX33_SoM_connectivity_Rev2_assembly.pdf \
+../hardware/tinyCLUNX33_SoM_connectivity/Rev2/tinyCLUNX33_SoM_connectivity_Rev2_schematic.pdf \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev3/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_photo_back.jpg \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev3/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_assembly.pdf \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev3/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_schematic.pdf \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev3/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_photo_front.jpg \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev2/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_assembly.pdf \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev2/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_photo_front.png \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev2/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_schematic.pdf \
+../hardware/tinyCLUNX33_adapter_MIPI_IO_to_QSE/Rev2/tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_photo_back.png \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev3/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_photo_front.jpg \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev3/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_schematic.pdf \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev3/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_photo_back.jpg \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev3/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_assembly.pdf \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev2/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_photo_front.png \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev2/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_assembly.pdf \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev2/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_schematic.pdf \
+../hardware/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE/Rev2/tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_photo_back.png \
+../hardware/tinyCLUNX33_reference_design_dual_MIPI_to_USB/Rev1/tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev1_photo_back.png \
+../hardware/tinyCLUNX33_reference_design_dual_MIPI_to_USB/Rev1/tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev1_photo_front.png \
+../hardware/tinyCLUNX33_reference_design_dual_MIPI_to_USB/Rev1/tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev1_assembly.pdf \
+../hardware/tinyCLUNX33_reference_design_dual_MIPI_to_USB/Rev1/tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev1_schematic.pdf
+
+HTML_EXTRA_STYLESHEET = \
+doxygen-awesome-css/doxygen-awesome.css \
+doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
+doxygen-custom.css

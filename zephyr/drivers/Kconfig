@@ -3,5 +3,6 @@
 
 rsource "clock_control/Kconfig"
 rsource "i2c/Kconfig"
+rsource "flash/Kconfig"
 rsource "usb/udc/Kconfig"
 rsource "video/Kconfig"

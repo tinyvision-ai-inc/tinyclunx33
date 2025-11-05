@@ -12,3 +12,4 @@ set(SOC_LINKER_SCRIPT ${ZEPHYR_BASE}/include/zephyr/arch/riscv/common/linker.ld 
 
 # Append extra snippets to it
 zephyr_linker_sources(RAM_SECTIONS ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)
+zephyr_code_relocate_ifdef(CONFIG_FLASH_TINYVISION FILES ../../../drivers/flash/flash_tinyvision.c LOCATION RAM NOKEEP)

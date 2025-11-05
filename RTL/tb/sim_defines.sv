@@ -1,1 +1,0 @@
-`define FAST_SIM

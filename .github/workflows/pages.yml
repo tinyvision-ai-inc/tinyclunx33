@@ -1,4 +1,3 @@
-# Sample workflow for building and deploying a Doxygen site to GitHub Pages
 name: Deploy Doxygen site to Pages
 
 on:
@@ -16,27 +15,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: true
+
       - name: Setup Doxygen
         run: |
           sudo apt update
           sudo apt install doxygen
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
+
       - name: Build with Doxygen
         run: |
-          cd Docs
+          cd docs
           git submodule update --init
           doxygen
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "Docs/html"
+          path: docs/html
 
   deploy:
     environment:
@@ -45,6 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

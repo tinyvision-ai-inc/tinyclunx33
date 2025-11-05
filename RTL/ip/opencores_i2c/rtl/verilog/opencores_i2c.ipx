@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<RadiantModule generator="ipgen" module="custom" name="i2c_master_top" source_format="Verilog" >
- <Package>
-        <File name="i2c_master_top.v" type="top_level_verilog"/>
-        <File name="i2c_master_bit_ctrl.v" type="top_level_verilog"/>
-        <File name="i2c_master_byte_ctrl.v" type="top_level_verilog"/>
-        <File name="i2c_master_defines.v" type="top_level_verilog"/>
- </Package>
-</RadiantModule>

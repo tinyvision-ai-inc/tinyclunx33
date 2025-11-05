@@ -1,42 +1,42 @@
-[submodule "Docs/doxygen-awesome-css"]
-	path = Docs/doxygen-awesome-css
+[submodule "doxygen-awesome-css"]
+	path = docs/doxygen-awesome-css
 	url = https://github.com/jothepro/doxygen-awesome-css.git
-[submodule "RTL/VexRiscv"]
-	path = RTL/ip/VexRiscv
+[submodule "VexRiscv"]
+	path = rtl/ip/VexRiscv
 	url = https://github.com/SpinalHDL/VexRiscv
-[submodule "ip/verilog-i2c"]
-	path = RTL/ip/verilog-i2c
+[submodule "verilog-i2c"]
+	path = rtl/ip/verilog-i2c
 	url = https://github.com/alexforencich/verilog-i2c.git
-[submodule "ip/ahb3lite_wb_bridge"]
-	path = RTL/ip/ahb3lite_wb_bridge
+[submodule "ahb3lite_wb_bridge"]
+	path = rtl/ip/ahb3lite_wb_bridge
 	url = https://github.com/vfinotti/ahb3lite_wb_bridge.git
-[submodule "ip/verilog-axi"]
-	path = RTL/ip/verilog-axi
+[submodule "verilog-axi"]
+	path = rtl/ip/verilog-axi
 	url = https://github.com/alexforencich/verilog-axi.git
-[submodule "ip/wb_intercon"]
-	path = RTL/ip/wb_intercon
+[submodule "wb_intercon"]
+	path = rtl/ip/wb_intercon
 	url = https://github.com/olofk/wb_intercon.git
-[submodule "ip/wb_common"]
-	path = RTL/ip/wb_common
+[submodule "wb_common"]
+	path = rtl/ip/wb_common
 	url = https://github.com/fusesoc/wb_common.git
-[submodule "ip/cdc_utils"]
-	path = RTL/ip/cdc_utils
+[submodule "cdc_utils"]
+	path = rtl/ip/cdc_utils
 	url = https://github.com/fusesoc/cdc_utils.git
-[submodule "ip/verilog_arbiter"]
-	path = RTL/ip/verilog_arbiter
+[submodule "verilog-arbiter"]
+	path = rtl/ip/verilog-arbiter
 	url = https://github.com/bmartini/verilog-arbiter.git
-[submodule "ip/fifo"]
-	path = RTL/ip/fifo
+[submodule "fifo"]
+	path = rtl/ip/fifo
 	url = https://github.com/olofk/fifo.git
-[submodule "ip/wb_ram"]
-	path = RTL/ip/wb_ram
+[submodule "wb_ram"]
+	path = rtl/ip/wb_ram
 	url = https://github.com/fusesoc/wb_ram.git
-[submodule "ip/wb2axip"]
-	path = RTL/ip/wb2axip
+[submodule "wb2axip"]
+	path = rtl/ip/wb2axip
 	url = https://github.com/ZipCPU/wb2axip.git
-[submodule "RTL/ip/wb_bfm"]
-	path = RTL/ip/wb_bfm
+[submodule "wb_bfm"]
+	path = rtl/ip/wb_bfm
 	url = https://github.com/olofk/wb_bfm.git
-[submodule "RTL/ip/stream_utils"]
-	path = RTL/ip/stream_utils
+[submodule "stream_utils"]
+	path = rtl/ip/stream_utils
 	url = https://github.com/olofk/stream_utils.git

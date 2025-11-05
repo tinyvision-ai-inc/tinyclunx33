@@ -46,7 +46,7 @@ class EcpprogHookBinaryRunner(ZephyrBinaryRunner):
             help='SSH host to connect to (optional)'
         )
         parser.add_argument(
-            '--mpremote', dest='mpremote', default='.local/bin/mpremote',
+            '--mpremote', dest='mpremote', default='mpremote',
             help='Path to the mpremote binary on the remote host'
         )
         parser.add_argument(
@@ -58,7 +58,7 @@ class EcpprogHookBinaryRunner(ZephyrBinaryRunner):
             help='Script to load with mpremote. Set multiple times to run several scripts.'
         )
         parser.add_argument(
-            '--ecpprog', dest='ecpprog', default='.local/bin/ecpprog',
+            '--ecpprog', dest='ecpprog', default='ecpprog',
             help='Path to the ecpprog binary on the remote host'
         )
         parser.add_argument(
@@ -75,7 +75,7 @@ class EcpprogHookBinaryRunner(ZephyrBinaryRunner):
     def do_run_mpremote(self, prefix):
         command = list(prefix)
 
-        command.append('.local/bin/mpremote')
+        command.append(self.mpremote)
 
         if self.port is not None:
             command.extend(('connect', self.port))
@@ -92,7 +92,7 @@ class EcpprogHookBinaryRunner(ZephyrBinaryRunner):
         command = list(prefix)
         build_conf = BuildConfiguration(self.cfg.build_dir)
         load_offset = build_conf.get('CONFIG_FLASH_LOAD_OFFSET', 0)
-        command.extend(('ecpprog', '-o', hex(load_offset)))
+        command.extend((self.ecpprog, '-o', hex(load_offset)))
 
         if self.device is not None:
             command.extend(('-d', self.device))

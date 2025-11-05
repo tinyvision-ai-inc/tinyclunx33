@@ -9,3 +9,5 @@ manifest:
       import:
         name-allowlist:
           - zephyr
+          - fatfs
+          - mcuboot

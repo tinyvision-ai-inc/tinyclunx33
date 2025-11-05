@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024-2025 tinyVision.ai Inc.
+ * Copyright (c) tinyVision.ai Inc.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,6 @@
 
 	chosen {
 		zephyr,sram = &sram0;
-		zephyr,flash = &flash0;
-		zephyr,code-partition = &slot0_partition;
 		zephyr,console = &uart0;
 		zephyr,shell-uart = &uart0;
 	};
@@ -40,28 +38,6 @@
 		#size-cells = <1>;
 
 		/* Core SoC soft-peripherals */
-
-		flash0: flash@20000000 {
-			compatible = "soc-nv-flash";
-			reg = <0x20000000 0x1000000>;
-
-			partitions {
-				compatible = "fixed-partitions";
-				#address-cells = <1>;
-				#size-cells = <1>;
-
-				boot_partition: partition@0 {
-					label = "fpga";
-					reg = <0x000000 0x100000>;
-				};
-
-				slot0_partition: partition@100000 {
-					label = "image-0";
-					reg = <0x100000 0x100000>;
-				};
-			};
-		};
-
 		sram0: memory@40000000 {
 			compatible = "mmio-sram";
 			device_type = "memory";

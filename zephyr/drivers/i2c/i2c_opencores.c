@@ -22,20 +22,23 @@ LOG_MODULE_REGISTER(i2c_opencores, CONFIG_I2C_LOG_LEVEL);
 
 /* ----- Read-write access */
 
-#define OC_I2C_PRER_LO 0x00 /* Low byte clock prescaler register */
-#define OC_I2C_PRER_HI 0x01 /* High byte clock prescaler register */
-#define OC_I2C_CTR     0x04 /* Control register */
+#define VERSION_MUX(litex_reg, opencores_reg) \
+((GET_I2C_CFG(dev)->rtl_version == 0) ? (litex_reg) : (opencores_reg))
+
+#define OC_I2C_PRER_LO VERSION_MUX(0x00, 0x00) /* Low byte clock prescaler register */
+#define OC_I2C_PRER_HI VERSION_MUX(0x01, 0x04) /* High byte clock prescaler register */
+#define OC_I2C_CTR     VERSION_MUX(0x04, 0x08) /* Control register */
 
 /* ----- Write-only registers */
 
-#define OC_I2C_TXR   0x08 /* Transmit byte register */
-#define OC_I2C_CR    0x10 /* Command register */
+#define OC_I2C_TXR   VERSION_MUX(0x08, 0x0C) /* Transmit byte register */
+#define OC_I2C_CR    VERSION_MUX(0x10, 0x10) /* Command register */
 #define OC_I2C_RESET 0x18 /* Reset register					 */
 
 /* ----- Read-only registers */
 
-#define OC_I2C_RXR 0x0c /* Receive byte register */
-#define OC_I2C_SR  0x14 /* Status register */
+#define OC_I2C_RXR VERSION_MUX(0x0c, 0x0C) /* Receive byte register */
+#define OC_I2C_SR VERSION_MUX(0x14, 0x14) /* Status register */
 
 /* ----- Bits definition */
 
@@ -81,6 +84,7 @@ struct i2c_opencores {
 struct i2c_opencores_cfg {
 	volatile uint32_t *base;
 	uint32_t bitrate;
+	uint8_t rtl_version;
 };
 
 #define GET_I2C_CFG(dev) ((const struct i2c_opencores_cfg *)dev->config)
@@ -94,18 +98,18 @@ static void opencores_write(const struct device *dev, uint8_t reg, uint8_t value
 	register_map[reg] = value;
 }
 
-static void opencores_16b_write(const struct device *dev, uint8_t reg, uint16_t value)
-{
-	const struct i2c_opencores_cfg *cfg = GET_I2C_CFG(dev);
-	volatile uint16_t *register_map = (uint16_t *)cfg->base;
-	register_map[reg] = value;
-}
-
 static uint8_t opencores_read(const struct device *dev, uint8_t reg)
 {
 	const struct i2c_opencores_cfg *cfg = GET_I2C_CFG(dev);
 	volatile uint8_t *register_map = (uint8_t *)cfg->base;
 	return register_map[reg];
+}
+
+static void opencores_16b_write(const struct device *dev, uint8_t reg, uint16_t value)
+{
+	const struct i2c_opencores_cfg *cfg = GET_I2C_CFG(dev);
+	volatile uint16_t *register_map = (uint16_t *)cfg->base;
+	register_map[reg] = value;
 }
 
 #define NS_TO_SYS_CLOCK_HW_CYCLES(ns)                                                              \
@@ -150,14 +154,21 @@ static int opencores_i2c_configure(const struct device *dev, uint32_t dev_config
 	case I2C_SPEED_ULTRA:
 		clock_cycles = NS_TO_SYS_CLOCK_HW_CYCLES(200);
 		context->t_buf_delay = NS_TO_SYS_CLOCK_HW_CYCLES(500);
+		break;
 	default:
 		return -ENOTSUP;
 	}
 	opencores_write(dev, OC_I2C_RESET, 1);
 	opencores_write(dev, OC_I2C_RESET, 0);
 	opencores_write(dev, OC_I2C_CTR, 0);
+
 	uint16_t prescale = ((clock_cycles + 4) / 5) - 1;
-	opencores_16b_write(dev, OC_I2C_PRER_LO, prescale);
+	if (GET_I2C_CFG(dev)->rtl_version == 0) {
+		opencores_16b_write(dev, OC_I2C_PRER_LO, prescale);
+	} else {
+		opencores_write(dev, OC_I2C_PRER_LO, prescale & 0xff);
+		opencores_write(dev, OC_I2C_PRER_HI, prescale >> 8);
+	}
 	context->dev_config = dev_config;
 
 	opencores_write(dev, OC_I2C_CTR, OC_I2C_EN);
@@ -357,6 +368,7 @@ static int i2c_opencores_init(const struct device *dev)
 	static const struct i2c_opencores_cfg i2c_opencores_cfg_##n = {                            \
 		.base = (volatile uint32_t *)DT_INST_REG_ADDR(n),                                  \
 		.bitrate = DT_INST_PROP(n, clock_frequency),                                       \
+		.rtl_version = DT_INST_PROP_OR(n, rtl_version, 0),                                       \
 	};                                                                                         \
                                                                                                    \
 	struct i2c_opencores i2c_opencores_##n;                                                    \
