@@ -1,0 +1,50 @@
+From 4ceaff42df8415a1f9adebf414ad9e7135caad6c Mon Sep 17 00:00:00 2001
+From: Josuah Demangeon <me@josuah.net>
+Date: Sat, 22 Nov 2025 01:05:24 +0000
+Subject: [PATCH] scripts: runners: ecpprog: add -k/--divider argument
+
+Add a -k/--divider argument matching the -k argument of `ecpprog` to
+select a clock divider. This helps slowing down the clock and is required
+to program some boards.
+
+Signed-off-by: Josuah Demangeon <me@josuah.net>
+---
+ scripts/west_commands/runners/ecpprog.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/west_commands/runners/ecpprog.py b/scripts/west_commands/runners/ecpprog.py
+index 48454c2c8a5aa..e8a07e6e3de2f 100644
+--- a/scripts/west_commands/runners/ecpprog.py
++++ b/scripts/west_commands/runners/ecpprog.py
+@@ -11,9 +11,10 @@
+ class EcpprogBinaryRunner(ZephyrBinaryRunner):
+     """Runner front-end for programming the FPGA flash at some offset."""
+ 
+-    def __init__(self, cfg, device=None):
++    def __init__(self, cfg, device=None, divider=None):
+         super().__init__(cfg)
+         self.device = device
++        self.divider = divider
+ 
+     @classmethod
+     def name(cls):
+@@ -28,14 +29,17 @@ def do_add_parser(cls, parser):
+         parser.add_argument(
+             "--device", dest="device", help="Device identifier such as i:<vid>:<pid>"
+         )
++        parser.add_argument(
++            "-k", "--divider", dest="divider", help="Clock divider", default="1"
++        )
+ 
+     @classmethod
+     def do_create(cls, cfg, args):
+-        return EcpprogBinaryRunner(cfg, device=args.device)
++        return EcpprogBinaryRunner(cfg, device=args.device, divider=args.divider)
+ 
+     def do_run(self, command, **kwargs):
+         build_conf = BuildConfiguration(self.cfg.build_dir)
+         load_offset = build_conf.get("CONFIG_FLASH_LOAD_OFFSET", 0)
+-        command = ("ecpprog", "-o", hex(load_offset), self.cfg.bin_file)
++        command = ("ecpprog", "-o", hex(load_offset), "-k", self.divider, self.cfg.bin_file)
+         self.logger.debug(" ".join(command))
+         self.check_call(command)

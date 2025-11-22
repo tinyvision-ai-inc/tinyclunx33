@@ -2,11 +2,22 @@ checkout-command: git checkout .
 clean-command: git clean -d -f -x
 patches:
 
-- author: Josuah Demangeon
-  email: me@josuah.net
+- apply-command: git apply
+  author: Josuah Demangeon
   date: '2025-07-14'
+  email: me@josuah.net
   merge-pr: https://github.com/zephyrproject-rtos/zephyr/pull/82801
   module: zephyr
   path: zephyr_usb3.patch
   sha256sum: 6d89d0a3d41de1fac4fdef631c3b8ed9276ea6b8c5d9d4c2d502efb97cdb9e3e
+  upstreamable: true
+
+- author: Josuah Demangeon
+  date: '2025-11-22'
+  email: me@josuah.net
+  merge-pr: https://github.com/zephyrproject-rtos/zephyr/pull/99840
+  merge-status: false
+  module: zephyr/patches
+  path: zephyr_ecpprog_divider.patch
+  sha256sum: fa29b05178a11945f1df5b34e94df4145a1d528719224021729e304f8fb5db45
   upstreamable: true
