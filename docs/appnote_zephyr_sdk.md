@@ -50,9 +50,10 @@ Assuming a Board Rev2, a Devkit Rev2, and SoC RTLv1.0.3 being used:
 3. Download the tinyCLUNX33 Zephyr example repository.
    This will also download the tinyVision Zephyr SDK as a dependency:
    ```
-   west init -m https://github.com/tinyvision-ai-inc/tinyclunx33
+   west init -m git@github.com:tinyvision-ai-inc/priv-tvai-usb
    west update
    ```
+   Note: you may need to ask the access to `sales@tinyvision.ai` for accessing this repository.
 
 4. Apply the patch for upstream USB 3 support.
    ```
