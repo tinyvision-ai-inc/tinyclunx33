@@ -9,6 +9,7 @@ A development kit usable as factory programming/test rig.
 ![tinyCLUNX33 devkit Rev2](tinyCLUNX33_devkit_Rev2_pinout.png)
 
 Features:
+
 - All SoM pins exposed, additional probing and voltage pins
 - Inexpensive 4-layer board, compact form-factor
 - USB3 at 5 Gbit/s integrated with a Type-C port controller
@@ -16,6 +17,7 @@ Features:
 - FTDI chip for JTAG, Flash SPI, UART access over USB
 
 Connectors:
+
 - 2 - USB-C connectors for the FPGA 5 Gbit/s interfaces and FTDI debug
 - 2 - QSE expansion connectors for adapter boards (RPi FPC Camera, custom...)
 - 1 - SMA connector for the high-speed clock export
@@ -23,6 +25,7 @@ Connectors:
 - Extra headers for EN signals and power rails
 
 Mechanical:
+
 - Components on one side with fewer exposed traces at the bottom
 - No-tool setup of the SoM helping factory programming
 - Mounting holes for securing the board in a rig or enclosure
@@ -60,6 +63,13 @@ picocom --baud 153600 /dev/ttyUSB1
 Then, pressing "Enter" should give an access to the Zephyr shell, displaying only `uart:$`.
 
 
+## Jumpers
+
+The default jumper setup that is recommended for most uses is the following, the "default" setup:
+
+![](images/tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_photo_front_annotated.jpg)
+
+
 ## Parts featured
 
 - FTDI
@@ -73,5 +83,5 @@ Then, pressing "Enter" should give an access to the Zephyr shell, displaying onl
 - Samtec
   [QSE-020-01-F-D-A-K](https://suddendocs.samtec.com/productspecs/qse-qte.pdf)
   High-Speed Socket connector
-  
+
 ![](images/carrier_devkit_schematic.png)
