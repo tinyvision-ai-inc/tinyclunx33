@@ -38,7 +38,7 @@ LOG_MODULE_REGISTER(i2c_opencores, CONFIG_I2C_LOG_LEVEL);
 /* ----- Read-only registers */
 
 #define OC_I2C_RXR VERSION_MUX(0x0c, 0x0C) /* Receive byte register */
-#define OC_I2C_SR VERSION_MUX(0x14, 0x14) /* Status register */
+#define OC_I2C_SR VERSION_MUX(0x14, 0x10) /* Status register */
 
 /* ----- Bits definition */
 
