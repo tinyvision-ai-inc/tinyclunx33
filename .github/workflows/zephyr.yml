@@ -61,6 +61,9 @@ jobs:
       matrix:
         soc_version: ["rtl_1_0", "rtl_1_1", "rtl_1_2"]
         application: ["usb_cdc_raw", "usb_cdc_shell", "minimal"]
+        include:
+          - soc_version: "rtl_1_2"
+            application: "with_mcuboot"
     steps:
 
       - name: Generate the cache key
