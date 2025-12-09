@@ -7,12 +7,6 @@
 &i2c0 {
 	status = "okay";
 
-	pll: si5351@60 {
-		compatible = "skyworks,si5351";
-		reg = <0x60>;
-		#clock-cells = <0>;
-	};
-
 	pca9542a@71 {
 		compatible = "nxp,pca9542a";
 		reg = <0x71>;
