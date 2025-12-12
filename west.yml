@@ -4,7 +4,7 @@
 manifest:
   projects:
     - name: mcuboot
-      url: https://github.com/mcu-tools/mcuboot
+      url: https://github.com/zephyrproject-rtos/mcuboot
       revision: aa4fa2b6e17361dd3ce16a60883059778fd147a9
 
     - name: zephyr
