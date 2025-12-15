@@ -19,7 +19,6 @@
 
 / {
 	chosen {
-		zephyr,code-partition = &slot0_partition;
 		zephyr,flash = &flash0;
 		zephyr,flash-controller = &flashctrl;
 	};
@@ -58,8 +57,8 @@
 		};
 
 		boot_partition: partition@200000 {
-			label = "mcuboot"; 
-			reg =  <0x200000 0x100000>; 
+			label = "mcuboot";
+			reg =  <0x200000 0x100000>;
 		};
 
 		slot0_partition: partition@300000 {
@@ -68,7 +67,7 @@
 		};
 
 		slot1_partition: partition@400000 {
-			label = "image-1"; 
+			label = "image-1";
 			reg = <0x400000 0x100000>;
 		};
 
@@ -91,4 +90,3 @@
     current-speed = <115200>;
     clock-frequency = < CLOCK_FREQ >;
 };
-
