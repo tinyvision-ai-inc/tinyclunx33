@@ -1,0 +1,10 @@
+compatible: "spinex,event-logger"
+
+description: |
+  Spinex event logger entry
+
+properties:
+  reg:
+    type: array
+  reg-names:
+    type: string-array

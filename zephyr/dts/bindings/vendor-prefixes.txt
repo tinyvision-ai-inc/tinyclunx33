@@ -1,1 +1,2 @@
 tinyvision	tinyVision.ai Inc.
+spinex	Spinex SOC RTL

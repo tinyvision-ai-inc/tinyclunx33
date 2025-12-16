@@ -3,6 +3,14 @@
 
 config DEBUG_SPINEX_EVENT_LOGGER
 	bool "Spinex event logging interface"
-	default y
-	help
-	  Provide shell for spinex event logger
+    default y
+    depends on DT_HAS_SPINEX_EVENT_LOGGER_ENABLED
+    help
+      Provide shell for spinex event logger
+
+config DEBUG_SPINEX_REG_FILE
+	bool "Spinex event reg file shell tool"
+    default y
+    depends on DT_HAS_SPINEX_REG_FILE_ENABLED
+    help
+      Provide shell for spinex reg files
