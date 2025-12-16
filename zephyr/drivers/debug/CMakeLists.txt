@@ -4,5 +4,6 @@
 zephyr_library()
 
 # zephyr-keep-sorted-start
-zephyr_library_sources(spinex-event-logger.c)
+zephyr_library_sources_ifdef(CONFIG_DEBUG_SPINEX_EVENT_LOGGER spinex-event-logger.c)
+zephyr_library_sources_ifdef(CONFIG_DEBUG_SPINEX_REG_FILE spinex-reg-file.c)
 # zephyr-keep-sorted-stop

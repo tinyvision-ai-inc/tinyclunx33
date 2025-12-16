@@ -1,0 +1,13 @@
+compatible: "spinex,reg-file"
+
+description: |
+  Spinex reg file documentation
+
+properties:
+  reg:
+    type: array
+  reg-names:
+    type: string-array
+  reg-docs:
+    type: string-array
+    required: true
