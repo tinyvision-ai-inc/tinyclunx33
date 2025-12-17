@@ -43,7 +43,7 @@
 #define DWC3_TRB_CTRL_ISP_IMI					BIT(10)
 #define DWC3_TRB_CTRL_IOC					BIT(11)
 #define DWC3_TRB_CTRL_PCM1_MASK					GENMASK(25, 24)
-#define DWC3_TRB_CTRL_SPR					26
+#define DWC3_TRB_CTRL_SPR					BIT(26)
 #define DWC3_TRB_CTRL_SIDSOFN_MASK				GENMASK(29, 14)
 
 /* Incomplete coverage of all fields, but suited for what this driver supports */

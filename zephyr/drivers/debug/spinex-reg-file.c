@@ -48,6 +48,18 @@ static uint32_t reg_file_read_and_track(struct reg_file_reg *reg)
     return value;
 }
 
+static char* pretty_format(int64_t* v) {
+   char* units[] = { "Hz", "KHz", "MHz"};
+   for(int i = 0;i < sizeof(units)/sizeof(units[0]);i++) {
+      if(*v < 9 * 1000) {
+      return units[i];
+      }
+      *v = *v / 1000;
+   }
+   return "GHz";
+}
+
+static int64_t last_dump_time_ms = 0;
 /* Shell command: dump all registers */
 static int cmd_reg_file_dump(const struct shell *sh, size_t argc, char **argv)
 {
@@ -60,15 +72,42 @@ static int cmd_reg_file_dump(const struct shell *sh, size_t argc, char **argv)
 
     const struct reg_file_config *cfg = dev->config;
 
-    shell_print(sh, "\nReg File Register Dump");
+    int64_t current_time = k_uptime_get();
+    int64_t delta_time = current_time - last_dump_time_ms;
+
+    shell_print(sh, "\nReg File Register Dump %llu ms %llu (+%lld ms)", current_time, last_dump_time_ms, delta_time);
     shell_print(sh, "========================\n");
-    shell_print(sh, "%30s %10s %23s %23s\n", "name", "address", "value", "prior_value");
+    shell_print(sh, "%30s %10s %23s %23s %15s %15s\n", "name", "address", "value", "prior_value", "delta", "hz");
 
     for (size_t i = 0; i < cfg->num_regs; i++) {
         struct reg_file_reg *reg = &cfg->regs[i];
+        uint32_t last_value = reg->last_value;
         uint32_t current = reg_file_read_and_track(reg);
+        int32_t delta = current - last_value;
 
-        shell_print(sh, "%30s 0x%08x %10u (0x%08x) %10u (0x%08x)", reg->name, reg->addr, current, current, reg->last_value, reg->last_value);
+        int64_t hz = delta * 1000ll / delta_time;
+        const char* fmt = pretty_format(&hz);
+        shell_print(sh, "%30s 0x%08x %10u (0x%08x) %10u (0x%08x) %15d %12lld %4s", reg->name, reg->addr, current, current, last_value, last_value, delta, hz, fmt);
+    }
+
+    last_dump_time_ms = current_time;
+
+    return 0;
+}
+
+static int cmd_reg_file_clear(const struct shell *sh, size_t argc, char **argv)
+{
+    const struct device *dev = device_get_binding(argv[1]);
+
+    if (!dev) {
+        shell_error(sh, "Reg file device not found");
+        return -ENODEV;
+    }
+
+    const struct reg_file_config *cfg = dev->config;
+    for (size_t i = 0; i < cfg->num_regs; i++) {
+        struct reg_file_reg *reg = &cfg->regs[i];
+        *(uint32_t*)reg->addr = 0;
     }
 
     return 0;
@@ -133,6 +172,7 @@ SHELL_DYNAMIC_CMD_CREATE(reg_file_device, complete_device);
 
 SHELL_STATIC_SUBCMD_SET_CREATE(reg_file_cmds,
     SHELL_CMD_ARG(dump, &reg_file_device, "Dump all reg file registers", cmd_reg_file_dump, 2, 0),
+    SHELL_CMD_ARG(clear, &reg_file_device, "Clear all reg file registers", cmd_reg_file_dump, 2, 0),
     SHELL_CMD(read, NULL, "Read specific register by name", cmd_reg_file_read),
     SHELL_SUBCMD_SET_END
 );
