@@ -48,10 +48,11 @@ jobs:
           python -m venv ${{ env.ZEPHYRPROJECT }}/.venv
           . ${{ env.ZEPHYRPROJECT }}/.venv/bin/activate
           python -m pip install west ninja
+          python -m pip install -r ${{ env.ZEPHYRPROJECT }}/scripts/requirements-actions.in
           cd ${{ env.ZEPHYRPROJECT }}
           west init --local ${{ github.event.repository.name }}
           west update
-          west packages pip --install
+          west packages pip --install --ignore-venv-check 
           west sdk install --install-dir ${{ env.ZEPHYR_SDK_INSTALL_DIR }} --toolchains riscv64-zephyr-elf
 
   build:

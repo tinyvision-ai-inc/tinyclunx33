@@ -1,24 +1,20 @@
-From 7d67b107b2386ef39668ceb571ebf8b11a6a7f44 Mon Sep 17 00:00:00 2001
-From: Josuah Demangeon <me@josuah.net>
-Date: Thu, 8 May 2025 02:55:52 +0200
-Subject: [PATCH] usb: device_next: USB 3 support
+From 3238d2f383bcf4bcb80b0f5a327e83dd7428d7f4 Mon Sep 17 00:00:00 2001
+From: Zacck Osiemo <coderv63@gmail.com>
+Date: Wed, 17 Dec 2025 10:23:36 +0200
+Subject: [PATCH] patch changes
 
-Introduce definitions to enable USB3 device controllers to be written.
-So far, USB 3 support got added to the subsystem, UDC common code, the
-Loopback class, UVC class, and the CDC-ACM class.
-
-Signed-off-by: Josuah Demangeon <me@josuah.net>
+Signed-off-by: Zacck Osiemo <coderv63@gmail.com>
 ---
  drivers/usb/udc/Kconfig                       |  10 +
  drivers/usb/udc/udc_virtual.c                 |   8 +-
  include/zephyr/drivers/usb/udc.h              |  45 ++++-
- include/zephyr/usb/bos.h                      |  54 +++++
+ include/zephyr/usb/bos.h                      |  55 +++++
  include/zephyr/usb/usb_ch9.h                  |  43 +++-
  include/zephyr/usb/usbd.h                     |  44 +++-
  subsys/usb/device_next/Kconfig                |   6 +
  subsys/usb/device_next/class/loopback.c       | 191 +++++++++++++++++-
  subsys/usb/device_next/class/usbd_cdc_acm.c   | 120 ++++++++++-
- subsys/usb/device_next/class/usbd_uvc.c       |  80 +++++++-
+ subsys/usb/device_next/class/usbd_uvc.c       |  70 ++++++-
  subsys/usb/device_next/usbd_ch9.c             |  38 ++++
  subsys/usb/device_next/usbd_class.c           |  46 ++++-
  subsys/usb/device_next/usbd_config.c          |  24 ++-
@@ -33,13 +29,13 @@ Signed-off-by: Josuah Demangeon <me@josuah.net>
  .../usb/device_next/boards/native_sim.overlay |   2 +-
  .../subsys/usb/device_next/build_all.overlay  |   2 +-
  tests/subsys/usb/device_next/src/main.c       |  23 ++-
- 24 files changed, 823 insertions(+), 35 deletions(-)
+ 24 files changed, 818 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/usb/udc/Kconfig b/drivers/usb/udc/Kconfig
-index b2c64634315..79352698ba9 100644
+index 9882f5ea8de..45ed25d3d8d 100644
 --- a/drivers/usb/udc/Kconfig
 +++ b/drivers/usb/udc/Kconfig
-@@ -11,9 +11,19 @@ menuconfig UDC_DRIVER
+@@ -10,9 +10,19 @@ menuconfig UDC_DRIVER
  
  if UDC_DRIVER
  
@@ -89,7 +85,7 @@ index db4f56b11b0..599bf641ee0 100644
  	for (int i = 0; i < config->num_of_eps; i++) {
  		config->ep_cfg_out[i].caps.out = 1;
 diff --git a/include/zephyr/drivers/usb/udc.h b/include/zephyr/drivers/usb/udc.h
-index 197cfe60e55..c4057e14991 100644
+index 9b1f25e78e0..a556f3d45c4 100644
 --- a/include/zephyr/drivers/usb/udc.h
 +++ b/include/zephyr/drivers/usb/udc.h
 @@ -26,6 +26,7 @@ enum udc_mps0 {
@@ -187,21 +183,22 @@ index 197cfe60e55..c4057e14991 100644
   * @brief Initiate host wakeup procedure.
   *
 diff --git a/include/zephyr/usb/bos.h b/include/zephyr/usb/bos.h
-index 79dd802bf26..e7e38e85d36 100644
+index da767786dd3..78505fd1249 100644
 --- a/include/zephyr/usb/bos.h
 +++ b/include/zephyr/usb/bos.h
-@@ -30,7 +30,10 @@ struct usb_bos_descriptor {
- /** Device capability type codes */
+@@ -44,8 +44,11 @@ struct usb_bos_descriptor {
  enum usb_bos_capability_types {
+ 	/** USB 2.0 Extension capability. */
  	USB_BOS_CAPABILITY_EXTENSION = 0x02,
 +	USB_BOS_CAPABILITY_SUPERSPEED_USB = 0x03,
+ 	/** Platform-specific capability (e.g., WebUSB, MS OS). */
  	USB_BOS_CAPABILITY_PLATFORM = 0x05,
 +	USB_BOS_CAPABILITY_SUPERSPEED_PLUS = 0x0a,
 +	USB_BOS_CAPABILITY_PRECISION_TIME_MEASUREMENT = 0x0b,
  };
  
- /** BOS USB 2.0 extension capability descriptor */
-@@ -41,6 +44,12 @@ struct usb_bos_capability_lpm {
+ /**
+@@ -70,6 +73,12 @@ struct usb_bos_capability_lpm {
  	uint32_t bmAttributes;
  } __packed;
  
@@ -211,10 +208,10 @@ index 79dd802bf26..e7e38e85d36 100644
 +	USB_BOS_ATTRIBUTES_BESL = BIT(2),
 +};
 +
- /** BOS platform capability descriptor */
- struct usb_bos_platform_descriptor {
- 	uint8_t bLength;
-@@ -50,6 +59,51 @@ struct usb_bos_platform_descriptor {
+ /**
+  * BOS platform capability descriptor
+  *
+@@ -88,11 +97,57 @@ struct usb_bos_platform_descriptor {
  	uint8_t PlatformCapabilityUUID[16];
  } __packed;
  
@@ -263,11 +260,17 @@ index 79dd802bf26..e7e38e85d36 100644
 +	USB_BOS_SPEED_SUPERSPEED_GEN2 = BIT(4),
 +};
 +
- /** WebUSB specific part of platform capability descriptor */
+ /**
+  * WebUSB specific part of platform capability descriptor
+  *
+  * Defines the WebUSB-specific fields that extend the generic platform capability descriptor.
+  */
++
  struct usb_bos_capability_webusb {
+ 	/** WebUSB specification version in BCD format (e.g., 0x0100). */
  	uint16_t bcdVersion;
 diff --git a/include/zephyr/usb/usb_ch9.h b/include/zephyr/usb/usb_ch9.h
-index 0c4a3ac0608..a328425cbc3 100644
+index 67af0047cc1..f085aecf6bd 100644
 --- a/include/zephyr/usb/usb_ch9.h
 +++ b/include/zephyr/usb/usb_ch9.h
 @@ -105,6 +105,20 @@ static inline bool usb_reqtype_is_to_device(const struct usb_setup_packet *setup
@@ -324,7 +327,7 @@ index 0c4a3ac0608..a328425cbc3 100644
  /** USB Standard Configuration Descriptor Characteristics from Table 9-10 */
  #define USB_SCD_RESERVED	BIT(7)
  #define USB_SCD_SELF_POWERED	BIT(6)
-@@ -277,7 +310,9 @@ struct usb_association_descriptor {
+@@ -278,7 +311,9 @@ struct usb_association_descriptor {
  #define USB_SRN_2_0			0x0200
  #define USB_SRN_2_0_1			0x0201
  #define USB_SRN_2_1			0x0210
@@ -335,7 +338,7 @@ index 0c4a3ac0608..a328425cbc3 100644
  #define USB_DEC_TO_BCD(dec)	((((dec) / 10) << 4) | ((dec) % 10))
  
  /** USB Device release number (bcdDevice Descriptor field) */
-@@ -357,9 +392,15 @@ struct usb_association_descriptor {
+@@ -358,9 +393,15 @@ struct usb_association_descriptor {
  /** Calculate full speed isochronous endpoint bInterval from a value in microseconds */
  #define USB_FS_ISO_EP_INTERVAL(us)	CLAMP((ilog2((us) / 1000U) + 1U), 1U, 16U)
  
@@ -352,7 +355,7 @@ index 0c4a3ac0608..a328425cbc3 100644
  #define USB_MPS_EP_SIZE(mps)		((mps) & BIT_MASK(11))
  
 diff --git a/include/zephyr/usb/usbd.h b/include/zephyr/usb/usbd.h
-index 029741f076d..d0a9497fe7f 100644
+index d4afb34e766..72de2d7176c 100644
 --- a/include/zephyr/usb/usbd.h
 +++ b/include/zephyr/usb/usbd.h
 @@ -37,11 +37,17 @@ extern "C" {
@@ -445,10 +448,10 @@ index 029741f076d..d0a9497fe7f 100644
  
  /** @brief Helper to declare request table of usbd_cctx_vendor_req
 diff --git a/subsys/usb/device_next/Kconfig b/subsys/usb/device_next/Kconfig
-index 18b6860b0e6..8c1f469bfd9 100644
+index 5e7b02e5ee7..4eacc41a199 100644
 --- a/subsys/usb/device_next/Kconfig
 +++ b/subsys/usb/device_next/Kconfig
-@@ -18,9 +18,14 @@ source "subsys/logging/Kconfig.template.log_config"
+@@ -17,9 +17,14 @@ source "subsys/logging/Kconfig.template.log_config"
  
  choice USBD_MAX_SPEED_CHOICE
  	prompt "Max supported connection speed"
@@ -463,7 +466,7 @@ index 18b6860b0e6..8c1f469bfd9 100644
  config USBD_MAX_SPEED_HIGH
  	bool "High-Speed"
  	depends on UDC_DRIVER_HAS_HIGH_SPEED_SUPPORT
-@@ -35,6 +40,7 @@ config USBD_MAX_SPEED
+@@ -34,6 +39,7 @@ config USBD_MAX_SPEED
  	int
  	default 0 if USBD_MAX_SPEED_FULL
  	default 1 if USBD_MAX_SPEED_HIGH
@@ -746,10 +749,10 @@ index 85896cd549e..8dcc215d685 100644
  										\
  	USBD_DEFINE_CLASS(loopback_##x, &lb_api, &lb_data_##x, &lb_vregs);
 diff --git a/subsys/usb/device_next/class/usbd_cdc_acm.c b/subsys/usb/device_next/class/usbd_cdc_acm.c
-index b75705d1293..dcc30cb687e 100644
+index d3921c0f146..72b01eaa4da 100644
 --- a/subsys/usb/device_next/class/usbd_cdc_acm.c
 +++ b/subsys/usb/device_next/class/usbd_cdc_acm.c
-@@ -39,6 +39,7 @@ LOG_MODULE_REGISTER(usbd_cdc_acm, CONFIG_USBD_CDC_ACM_LOG_LEVEL);
+@@ -40,6 +40,7 @@ LOG_MODULE_REGISTER(usbd_cdc_acm, CONFIG_USBD_CDC_ACM_LOG_LEVEL);
  #define CDC_ACM_INTERVAL_DEFAULT	10000UL
  #define CDC_ACM_FS_INT_EP_INTERVAL	USB_FS_INT_EP_INTERVAL(10000U)
  #define CDC_ACM_HS_INT_EP_INTERVAL	USB_HS_INT_EP_INTERVAL(10000U)
@@ -757,7 +760,7 @@ index b75705d1293..dcc30cb687e 100644
  
  #define CDC_ACM_CLASS_ENABLED		0
  #define CDC_ACM_CLASS_SUSPENDED		1
-@@ -72,6 +73,15 @@ struct usbd_cdc_acm_desc {
+@@ -73,6 +74,15 @@ struct usbd_cdc_acm_desc {
  	struct usb_ep_descriptor if1_hs_out_ep;
  #endif
  
@@ -773,7 +776,7 @@ index b75705d1293..dcc30cb687e 100644
  	struct usb_desc_header nil_desc;
  };
  
-@@ -84,6 +94,7 @@ struct cdc_acm_uart_config {
+@@ -85,6 +95,7 @@ struct cdc_acm_uart_config {
  	struct usbd_cdc_acm_desc *const desc;
  	const struct usb_desc_header **const fs_desc;
  	const struct usb_desc_header **const hs_desc;
@@ -781,7 +784,7 @@ index b75705d1293..dcc30cb687e 100644
  };
  
  struct cdc_acm_uart_data {
-@@ -224,6 +235,12 @@ static uint8_t cdc_acm_get_int_in(struct usbd_class_data *const c_data)
+@@ -226,6 +237,12 @@ static uint8_t cdc_acm_get_int_in(struct usbd_class_data *const c_data)
  	}
  #endif
  
@@ -794,7 +797,7 @@ index b75705d1293..dcc30cb687e 100644
  	return desc->if0_int_ep.bEndpointAddress;
  }
  
-@@ -239,6 +256,12 @@ static uint8_t cdc_acm_get_bulk_in(struct usbd_class_data *const c_data)
+@@ -241,6 +258,12 @@ static uint8_t cdc_acm_get_bulk_in(struct usbd_class_data *const c_data)
  	}
  #endif
  
@@ -807,7 +810,7 @@ index b75705d1293..dcc30cb687e 100644
  	return desc->if1_in_ep.bEndpointAddress;
  }
  
-@@ -254,6 +277,12 @@ static uint8_t cdc_acm_get_bulk_out(struct usbd_class_data *const c_data)
+@@ -256,6 +279,12 @@ static uint8_t cdc_acm_get_bulk_out(struct usbd_class_data *const c_data)
  	}
  #endif
  
@@ -820,7 +823,7 @@ index b75705d1293..dcc30cb687e 100644
  	return desc->if1_out_ep.bEndpointAddress;
  }
  
-@@ -265,6 +294,10 @@ static size_t cdc_acm_get_bulk_mps(struct usbd_class_data *const c_data)
+@@ -267,6 +296,10 @@ static size_t cdc_acm_get_bulk_mps(struct usbd_class_data *const c_data)
  	    usbd_bus_speed(uds_ctx) == USBD_SPEED_HS) {
  		return 512U;
  	}
@@ -831,7 +834,7 @@ index b75705d1293..dcc30cb687e 100644
  
  	return 64U;
  }
-@@ -405,6 +438,9 @@ static void *usbd_cdc_acm_get_desc(struct usbd_class_data *const c_data,
+@@ -407,6 +440,9 @@ static void *usbd_cdc_acm_get_desc(struct usbd_class_data *const c_data,
  	if (USBD_SUPPORTS_HIGH_SPEED && speed == USBD_SPEED_HS) {
  		return cfg->hs_desc;
  	}
@@ -841,7 +844,7 @@ index b75705d1293..dcc30cb687e 100644
  
  	return cfg->fs_desc;
  }
-@@ -1192,6 +1228,58 @@ struct usbd_class_api usbd_cdc_acm_api = {
+@@ -1196,6 +1232,58 @@ struct usbd_class_api usbd_cdc_acm_api = {
  		.bInterval = 0,							\
  	},
  
@@ -900,7 +903,7 @@ index b75705d1293..dcc30cb687e 100644
  #define CDC_ACM_DEFINE_DESCRIPTOR(n)						\
  static struct usbd_cdc_acm_desc cdc_acm_desc_##n = {				\
  	.iad = {								\
-@@ -1291,6 +1379,10 @@ static struct usbd_cdc_acm_desc cdc_acm_desc_##n = {				\
+@@ -1295,6 +1383,10 @@ static struct usbd_cdc_acm_desc cdc_acm_desc_##n = {				\
  		    (CDC_ACM_DEFINE_DESCRIPTOR_HS(n)),				\
  		    ())								\
  										\
@@ -911,7 +914,7 @@ index b75705d1293..dcc30cb687e 100644
  	.nil_desc = {								\
  		.bLength = 0,							\
  		.bDescriptorType = 0,						\
-@@ -1326,6 +1418,24 @@ const static struct usb_desc_header *cdc_acm_hs_desc_##n[] = {			\
+@@ -1330,6 +1422,24 @@ const static struct usb_desc_header *cdc_acm_hs_desc_##n[] = {			\
  	(struct usb_desc_header *) &cdc_acm_desc_##n.nil_desc,			\
  };
  
@@ -936,7 +939,7 @@ index b75705d1293..dcc30cb687e 100644
  #define USBD_CDC_ACM_DT_DEVICE_DEFINE(n)					\
  	BUILD_ASSERT(DT_INST_ON_BUS(n, usb),					\
  		     "node " DT_NODE_PATH(DT_DRV_INST(n))			\
-@@ -1334,11 +1444,13 @@ const static struct usb_desc_header *cdc_acm_hs_desc_##n[] = {			\
+@@ -1338,11 +1448,13 @@ const static struct usb_desc_header *cdc_acm_hs_desc_##n[] = {			\
  	CDC_ACM_DEFINE_DESCRIPTOR(n);						\
  	COND_CODE_1(USBD_SUPPORTS_HIGH_SPEED,					\
  		    (CDC_ACM_DEFINE_HS_DESC_HEADER(n)),				\
@@ -953,7 +956,7 @@ index b75705d1293..dcc30cb687e 100644
  										\
  	IF_ENABLED(DT_INST_NODE_HAS_PROP(n, label), (				\
  	USBD_DESC_STRING_DEFINE(cdc_acm_if_desc_data_##n,			\
-@@ -1358,6 +1470,8 @@ const static struct usb_desc_header *cdc_acm_hs_desc_##n[] = {			\
+@@ -1362,6 +1474,8 @@ const static struct usb_desc_header *cdc_acm_hs_desc_##n[] = {			\
  		.fs_desc = cdc_acm_fs_desc_##n,					\
  		.hs_desc = COND_CODE_1(USBD_SUPPORTS_HIGH_SPEED,		\
  				       (cdc_acm_hs_desc_##n,), (NULL,))		\
@@ -963,7 +966,7 @@ index b75705d1293..dcc30cb687e 100644
  										\
  	static struct cdc_acm_uart_data uart_data_##n = {			\
 diff --git a/subsys/usb/device_next/class/usbd_uvc.c b/subsys/usb/device_next/class/usbd_uvc.c
-index 556627aff85..0099b52cdb2 100644
+index bd59e0b4c6d..1cd5c5c6878 100644
 --- a/subsys/usb/device_next/class/usbd_uvc.c
 +++ b/subsys/usb/device_next/class/usbd_uvc.c
 @@ -34,6 +34,7 @@ LOG_MODULE_REGISTER(usbd_uvc, CONFIG_USBD_VIDEO_LOG_LEVEL);
@@ -974,7 +977,7 @@ index 556627aff85..0099b52cdb2 100644
  #define UVC_IDX_VC_UNIT 3
  #define UVC_MAX_HEADER_LENGTH 0xff
  
-@@ -92,6 +93,8 @@ struct uvc_desc {
+@@ -93,6 +94,8 @@ struct uvc_desc {
  	struct uvc_color_descriptor if1_color;
  	struct usb_ep_descriptor if1_ep_fs;
  	struct usb_ep_descriptor if1_ep_hs;
@@ -983,7 +986,7 @@ index 556627aff85..0099b52cdb2 100644
  };
  
  struct uvc_data {
-@@ -122,6 +125,7 @@ struct uvc_data {
+@@ -127,6 +130,7 @@ struct uvc_data {
  	/* Index where newly generated descriptors are appened */
  	unsigned int fs_desc_idx;
  	unsigned int hs_desc_idx;
@@ -991,7 +994,7 @@ index 556627aff85..0099b52cdb2 100644
  	unsigned int fmt_desc_idx;
  	/* UVC error from latest request */
  	uint8_t err;
-@@ -139,6 +143,7 @@ struct uvc_config {
+@@ -144,6 +148,7 @@ struct uvc_config {
  	/* Array of pointers to descriptors sent to the USB device stack and the host */
  	struct usb_desc_header **fs_desc;
  	struct usb_desc_header **hs_desc;
@@ -999,7 +1002,7 @@ index 556627aff85..0099b52cdb2 100644
  };
  
  /* Specialized version of UDC net_buf metadata with extra fields */
-@@ -435,6 +440,11 @@ static uint8_t uvc_get_bulk_in(const struct device *dev)
+@@ -433,6 +438,11 @@ static uint8_t uvc_get_bulk_in(const struct device *dev)
  	struct usbd_context *uds_ctx = usbd_class_get_ctx(cfg->c_data);
  	struct uvc_desc *desc = cfg->desc;
  
@@ -1011,7 +1014,7 @@ index 556627aff85..0099b52cdb2 100644
  	if (USBD_SUPPORTS_HIGH_SPEED &&
  	    usbd_bus_speed(uds_ctx) == USBD_SPEED_HS) {
  		return desc->if1_ep_hs.bEndpointAddress;
-@@ -447,6 +457,11 @@ static size_t uvc_get_bulk_mps(struct usbd_class_data *const c_data)
+@@ -445,6 +455,11 @@ static size_t uvc_get_bulk_mps(struct usbd_class_data *const c_data)
  {
  	struct usbd_context *uds_ctx = usbd_class_get_ctx(c_data);
  
@@ -1023,7 +1026,7 @@ index 556627aff85..0099b52cdb2 100644
  	if (USBD_SUPPORTS_HIGH_SPEED &&
  	    usbd_bus_speed(uds_ctx) == USBD_SPEED_HS) {
  		return 512U;
-@@ -1343,6 +1358,11 @@ static void *uvc_get_desc(struct usbd_class_data *const c_data, const enum usbd_
+@@ -1345,6 +1360,11 @@ static void *uvc_get_desc(struct usbd_class_data *const c_data, const enum usbd_
  	const struct uvc_config *const cfg = dev->config;
  	struct uvc_desc *desc = cfg->desc;
  
@@ -1035,7 +1038,7 @@ index 556627aff85..0099b52cdb2 100644
  	if (USBD_SUPPORTS_HIGH_SPEED && speed == USBD_SPEED_HS) {
  		desc->if1_hdr.bEndpointAddress = desc->if1_ep_hs.bEndpointAddress;
  		return cfg->hs_desc;
-@@ -1353,7 +1373,7 @@ static void *uvc_get_desc(struct usbd_class_data *const c_data, const enum usbd_
+@@ -1355,7 +1375,7 @@ static void *uvc_get_desc(struct usbd_class_data *const c_data, const enum usbd_
  }
  
  static int uvc_assign_desc(const struct device *dev, void *const desc,
@@ -1044,7 +1047,7 @@ index 556627aff85..0099b52cdb2 100644
  {
  	const struct uvc_config *cfg = dev->config;
  	struct uvc_data *data = dev->data;
-@@ -1377,6 +1397,16 @@ static int uvc_assign_desc(const struct device *dev, void *const desc,
+@@ -1379,6 +1399,16 @@ static int uvc_assign_desc(const struct device *dev, void *const desc,
  		cfg->hs_desc[data->hs_desc_idx] = (struct usb_desc_header *)&nil_desc;
  	}
  
@@ -1060,8 +1063,8 @@ index 556627aff85..0099b52cdb2 100644
 +
  	return 0;
  err:
- 	LOG_ERR("Out of descriptor pointers, raise CONFIG_USBD_VIDEO_MAX_FORMATS above %u",
-@@ -1404,7 +1434,7 @@ static union uvc_fmt_desc *uvc_new_fmt_desc(const struct device *dev)
+ 	LOG_WRN("Out of descriptors, raise CONFIG_USBD_VIDEO_MAX_FORMATS above %u",
+@@ -1406,7 +1436,7 @@ static union uvc_fmt_desc *uvc_new_fmt_desc(const struct device *dev)
  
  	LOG_DBG("Allocated format/frame descriptor %u (%p)", data->fmt_desc_idx, desc);
  
@@ -1070,31 +1073,7 @@ index 556627aff85..0099b52cdb2 100644
  	if (ret != 0) {
  		return NULL;
  	}
-@@ -1676,7 +1706,7 @@ static int uvc_init(struct usbd_class_data *const c_data)
- 		if (prev_pixfmt != cap->pixelformat) {
- 			if (prev_pixfmt != 0) {
- 				cfg->desc->if1_hdr.wTotalLength += cfg->desc->if1_color.bLength;
--				uvc_assign_desc(dev, &cfg->desc->if1_color, true, true);
-+				uvc_assign_desc(dev, &cfg->desc->if1_color, true, true, true);
- 			}
- 
- 			ret = uvc_add_vs_format_desc(dev, &format_desc, cap);
-@@ -1701,9 +1731,11 @@ static int uvc_init(struct usbd_class_data *const c_data)
- 	}
- 
- 	cfg->desc->if1_hdr.wTotalLength += cfg->desc->if1_color.bLength;
--	uvc_assign_desc(dev, &cfg->desc->if1_color, true, true);
--	uvc_assign_desc(dev, &cfg->desc->if1_ep_fs, true, false);
--	uvc_assign_desc(dev, &cfg->desc->if1_ep_hs, false, true);
-+	uvc_assign_desc(dev, &cfg->desc->if1_color, true, true, true);
-+	uvc_assign_desc(dev, &cfg->desc->if1_ep_fs, true, false, false);
-+	uvc_assign_desc(dev, &cfg->desc->if1_ep_hs, false, true, false);
-+	uvc_assign_desc(dev, &cfg->desc->if1_ep_ss, false, false, true);
-+	uvc_assign_desc(dev, &cfg->desc->if1_ep_ss_co, false, false, true);
- 
- 	cfg->desc->if1_hdr.wTotalLength = sys_cpu_to_le16(cfg->desc->if1_hdr.wTotalLength);
- 
-@@ -2295,6 +2327,23 @@ static struct uvc_desc uvc_desc_##n = {						\
+@@ -2420,6 +2450,23 @@ static struct uvc_desc uvc_desc_##n = {						\
  		.bmAttributes = USB_EP_TYPE_BULK,				\
  		.wMaxPacketSize = sys_cpu_to_le16(512),				\
  		.bInterval = 0,							\
@@ -1118,7 +1097,7 @@ index 556627aff85..0099b52cdb2 100644
  	},									\
  };										\
  										\
-@@ -2328,6 +2377,23 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
+@@ -2453,6 +2500,23 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
  	/* More pointers are generated here at runtime */			\
  	(struct usb_desc_header *) &uvc_desc_##n.if1_ep_hs,			\
  	(struct usb_desc_header *) NULL,					\
@@ -1142,7 +1121,7 @@ index 556627aff85..0099b52cdb2 100644
  };
  
  #define USBD_VIDEO_DT_DEVICE_DEFINE(n)						\
-@@ -2341,11 +2407,13 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
+@@ -2466,11 +2530,13 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
  		.desc = &uvc_desc_##n,						\
  		.fs_desc = uvc_fs_desc_##n,					\
  		.hs_desc = uvc_hs_desc_##n,					\
@@ -1746,7 +1725,7 @@ index d352f555c8c..7c18f895ec9 100644
  	};
  };
 diff --git a/tests/subsys/usb/device_next/build_all.overlay b/tests/subsys/usb/device_next/build_all.overlay
-index bafd8f94aaa..9f6297976f2 100644
+index e571e4b4bd7..e37955e651c 100644
 --- a/tests/subsys/usb/device_next/build_all.overlay
 +++ b/tests/subsys/usb/device_next/build_all.overlay
 @@ -63,7 +63,7 @@
@@ -1757,7 +1736,7 @@ index bafd8f94aaa..9f6297976f2 100644
 +			maximum-speed = "super-speed";
  		};
  	};
- 
+ };
 diff --git a/tests/subsys/usb/device_next/src/main.c b/tests/subsys/usb/device_next/src/main.c
 index 7c04c18544a..088914bcdab 100644
 --- a/tests/subsys/usb/device_next/src/main.c
@@ -1808,5 +1787,5 @@ index 7c04c18544a..088914bcdab 100644
  	zassert_equal(err, 0, "Failed to unregister all instances(%d)", err);
  
 -- 
-2.47.2
+2.43.0
 

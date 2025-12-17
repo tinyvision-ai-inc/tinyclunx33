@@ -9,7 +9,7 @@ manifest:
 
     - name: zephyr
       url: https://github.com/zephyrproject-rtos/zephyr
-      revision: v4.2.0
+      revision: v4.3.0
       import:
         name-allowlist:
           - zephyr
