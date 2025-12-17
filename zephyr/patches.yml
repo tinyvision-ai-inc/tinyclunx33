@@ -4,13 +4,12 @@ patches:
 
 - apply-command: git apply
   author: Josuah Demangeon
-  date: '2025-07-14'
+  date: '2025-12-17'
   email: me@josuah.net
-  merge-pr: https://github.com/zephyrproject-rtos/zephyr/pull/82801
   module: zephyr
-  path: zephyr_usb3.patch
-  sha256sum: 6d89d0a3d41de1fac4fdef631c3b8ed9276ea6b8c5d9d4c2d502efb97cdb9e3e
-  upstreamable: true
+  path: zephyr_usb3_4_3.patch
+  sha256sum: 35ae7b4e6776701c4098ad62827af24741769cadaed9d4255d9e723cc48a3cba
+  upstreamable: false
 
 - author: Josuah Demangeon
   date: '2025-11-22'
