@@ -284,8 +284,6 @@ static int imx219_get_caps(const struct device *dev, struct video_caps *caps)
 		return -EINVAL;
 	}
 
-	caps->min_line_count = LINE_COUNT_HEIGHT;
-	caps->max_line_count = LINE_COUNT_HEIGHT;
 	caps->format_caps = imx219_fmts;
 
 	return 0;
