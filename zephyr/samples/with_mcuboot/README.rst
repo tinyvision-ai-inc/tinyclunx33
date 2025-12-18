@@ -29,5 +29,5 @@ is merged together with the default configuration files used by MCUboot.
 configures MCUboot to prevent downgrades and operate in upgrade-only mode.
 
 ```
-west build -b tinyclunx33@rev2/rtl_1_2 --sysbuild tinyclunx33/zephyr/samples/with_mcuboot/ --pristine
+west build -b tinyclunx33@rev2/rtl_1_2/slot0 --sysbuild tinyclunx33/zephyr/samples/with_mcuboot/ --pristine
 ```
