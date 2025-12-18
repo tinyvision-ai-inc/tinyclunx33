@@ -1,4 +1,4 @@
-From 3238d2f383bcf4bcb80b0f5a327e83dd7428d7f4 Mon Sep 17 00:00:00 2001
+From 63e9ffa55fe55841113159795b5a23fde85bf978 Mon Sep 17 00:00:00 2001
 From: Zacck Osiemo <coderv63@gmail.com>
 Date: Wed, 17 Dec 2025 10:23:36 +0200
 Subject: [PATCH] patch changes
@@ -14,7 +14,7 @@ Signed-off-by: Zacck Osiemo <coderv63@gmail.com>
  subsys/usb/device_next/Kconfig                |   6 +
  subsys/usb/device_next/class/loopback.c       | 191 +++++++++++++++++-
  subsys/usb/device_next/class/usbd_cdc_acm.c   | 120 ++++++++++-
- subsys/usb/device_next/class/usbd_uvc.c       |  70 ++++++-
+ subsys/usb/device_next/class/usbd_uvc.c       |  89 +++++++-
  subsys/usb/device_next/usbd_ch9.c             |  38 ++++
  subsys/usb/device_next/usbd_class.c           |  46 ++++-
  subsys/usb/device_next/usbd_config.c          |  24 ++-
@@ -29,7 +29,7 @@ Signed-off-by: Zacck Osiemo <coderv63@gmail.com>
  .../usb/device_next/boards/native_sim.overlay |   2 +-
  .../subsys/usb/device_next/build_all.overlay  |   2 +-
  tests/subsys/usb/device_next/src/main.c       |  23 ++-
- 24 files changed, 818 insertions(+), 31 deletions(-)
+ 24 files changed, 833 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/usb/udc/Kconfig b/drivers/usb/udc/Kconfig
 index 9882f5ea8de..45ed25d3d8d 100644
@@ -966,7 +966,7 @@ index d3921c0f146..72b01eaa4da 100644
  										\
  	static struct cdc_acm_uart_data uart_data_##n = {			\
 diff --git a/subsys/usb/device_next/class/usbd_uvc.c b/subsys/usb/device_next/class/usbd_uvc.c
-index bd59e0b4c6d..1cd5c5c6878 100644
+index bd59e0b4c6d..7a2bed05e18 100644
 --- a/subsys/usb/device_next/class/usbd_uvc.c
 +++ b/subsys/usb/device_next/class/usbd_uvc.c
 @@ -34,6 +34,7 @@ LOG_MODULE_REGISTER(usbd_uvc, CONFIG_USBD_VIDEO_LOG_LEVEL);
@@ -1073,7 +1073,52 @@ index bd59e0b4c6d..1cd5c5c6878 100644
  	if (ret != 0) {
  		return NULL;
  	}
-@@ -2420,6 +2450,23 @@ static struct uvc_desc uvc_desc_##n = {						\
+@@ -1726,21 +1756,32 @@ static int uvc_init(struct usbd_class_data *const c_data)
+ 
+ 	cfg->desc->if1_hdr.wTotalLength += cfg->desc->if1_color.bLength;
+ 
+-	ret = uvc_assign_desc(dev, &cfg->desc->if1_color, true, true);
++	ret = uvc_assign_desc(dev, &cfg->desc->if1_color, true, true, true);
+ 	if (ret != 0) {
+ 		return ret;
+ 	}
+ 
+-	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_fs, true, false);
++	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_fs, true, false, false);
+ 	if (ret != 0) {
+ 		return ret;
+ 	}
+ 
+-	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_hs, false, true);
++	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_hs, false, true, false);
+ 	if (ret != 0) {
+ 		return ret;
+ 	}
+ 
++	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_ss, false, true, true);
++	if (ret != 0) {
++		return ret;
++	}
++
++	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_ss_co, false, true, true);
++	if (ret != 0) {
++		return ret;
++	}
++
++
+ 	cfg->desc->if1_hdr.wTotalLength = sys_cpu_to_le16(cfg->desc->if1_hdr.wTotalLength);
+ 
+ 	/* Generating the default probe message now that descriptors are complete */
+@@ -1821,7 +1862,7 @@ int uvc_add_format(const struct device *const dev, const struct video_format *co
+ 		if (data->last_pix_fmt != 0) {
+ 			cfg->desc->if1_hdr.wTotalLength += cfg->desc->if1_color.bLength;
+ 
+-			ret = uvc_assign_desc(dev, &cfg->desc->if1_color, true, true);
++			ret = uvc_assign_desc(dev, &cfg->desc->if1_color, true, true, true);
+ 			if (ret != 0) {
+ 				return ret;
+ 			}
+@@ -2420,6 +2461,23 @@ static struct uvc_desc uvc_desc_##n = {						\
  		.bmAttributes = USB_EP_TYPE_BULK,				\
  		.wMaxPacketSize = sys_cpu_to_le16(512),				\
  		.bInterval = 0,							\
@@ -1097,7 +1142,7 @@ index bd59e0b4c6d..1cd5c5c6878 100644
  	},									\
  };										\
  										\
-@@ -2453,6 +2500,23 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
+@@ -2453,6 +2511,23 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
  	/* More pointers are generated here at runtime */			\
  	(struct usb_desc_header *) &uvc_desc_##n.if1_ep_hs,			\
  	(struct usb_desc_header *) NULL,					\
@@ -1121,7 +1166,7 @@ index bd59e0b4c6d..1cd5c5c6878 100644
  };
  
  #define USBD_VIDEO_DT_DEVICE_DEFINE(n)						\
-@@ -2466,11 +2530,13 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
+@@ -2466,11 +2541,13 @@ struct usb_desc_header *uvc_hs_desc_##n[UVC_MAX_HS_DESC] = {			\
  		.desc = &uvc_desc_##n,						\
  		.fs_desc = uvc_fs_desc_##n,					\
  		.hs_desc = uvc_hs_desc_##n,					\
@@ -1787,5 +1832,5 @@ index 7c04c18544a..088914bcdab 100644
  	zassert_equal(err, 0, "Failed to unregister all instances(%d)", err);
  
 -- 
-2.43.0
+2.52.0
 

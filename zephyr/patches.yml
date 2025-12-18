@@ -4,11 +4,11 @@ patches:
 
 - apply-command: git apply
   author: Josuah Demangeon
-  date: '2025-12-17'
+  date: '2025-12-18'
   email: me@josuah.net
   module: zephyr
   path: zephyr_usb3_4_3.patch
-  sha256sum: 35ae7b4e6776701c4098ad62827af24741769cadaed9d4255d9e723cc48a3cba
+  sha256sum: b4f5cc257cb466783decd5eda4fd0f7948d8f84d10bed6764067cff96b1a61cd
   upstreamable: false
 
 - author: Josuah Demangeon
