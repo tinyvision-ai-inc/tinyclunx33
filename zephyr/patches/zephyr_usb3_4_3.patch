@@ -1,4 +1,4 @@
-From 63e9ffa55fe55841113159795b5a23fde85bf978 Mon Sep 17 00:00:00 2001
+From 114e7a5e384ba43e36d7d890bf7d92d6318520e6 Mon Sep 17 00:00:00 2001
 From: Zacck Osiemo <coderv63@gmail.com>
 Date: Wed, 17 Dec 2025 10:23:36 +0200
 Subject: [PATCH] patch changes
@@ -966,7 +966,7 @@ index d3921c0f146..72b01eaa4da 100644
  										\
  	static struct cdc_acm_uart_data uart_data_##n = {			\
 diff --git a/subsys/usb/device_next/class/usbd_uvc.c b/subsys/usb/device_next/class/usbd_uvc.c
-index bd59e0b4c6d..7a2bed05e18 100644
+index bd59e0b4c6d..3cae733989a 100644
 --- a/subsys/usb/device_next/class/usbd_uvc.c
 +++ b/subsys/usb/device_next/class/usbd_uvc.c
 @@ -34,6 +34,7 @@ LOG_MODULE_REGISTER(usbd_uvc, CONFIG_USBD_VIDEO_LOG_LEVEL);
@@ -1095,12 +1095,12 @@ index bd59e0b4c6d..7a2bed05e18 100644
  		return ret;
  	}
  
-+	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_ss, false, true, true);
++	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_ss, false, false, true);
 +	if (ret != 0) {
 +		return ret;
 +	}
 +
-+	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_ss_co, false, true, true);
++	ret = uvc_assign_desc(dev, &cfg->desc->if1_ep_ss_co, false, false, true);
 +	if (ret != 0) {
 +		return ret;
 +	}

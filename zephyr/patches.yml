@@ -8,7 +8,7 @@ patches:
   email: me@josuah.net
   module: zephyr
   path: zephyr_usb3_4_3.patch
-  sha256sum: b4f5cc257cb466783decd5eda4fd0f7948d8f84d10bed6764067cff96b1a61cd
+  sha256sum: 357f34b682d495b10a2e08e4a1643919b112e175f6f2e6e8a14261b6a3ed170f
   upstreamable: false
 
 - author: Josuah Demangeon
