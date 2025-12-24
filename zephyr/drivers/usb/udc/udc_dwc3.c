@@ -522,12 +522,6 @@ static void dwc3_on_soft_reset(const struct device *dev)
 	/* Letting GUID unchanged */
 	/* Letting GUSB2PHYCFG and GUSB3PIPECTL unchanged */
 
-	/* Setting fifo size for both TX and RX, experimental values
-	 * GRXFIFOSIZ too far below or above  512 * 3 leads to errors */
-	reg = 512 * 3;
-	sys_write32(reg, cfg->base + DWC3_GTXFIFOSIZ(0));
-	sys_write32(reg, cfg->base + DWC3_GRXFIFOSIZ(0));
-
 	/* Setup the event buffer address, size and start event reception */
 	memset((void *)cfg->evt_buf, 0, CONFIG_UDC_DWC3_EVENTS_NUM * sizeof(uint32_t));
 	sys_write32(HI32((uintptr_t)cfg->evt_buf), cfg->base + DWC3_GEVNTADR_HI(0));
@@ -973,7 +967,10 @@ static void dwc3_on_xfer_done_norm(const struct device *dev, uint32_t evt)
 
 	/* Clear the TRB that triggered the event */
 	buf = dwc3_pop_trb(dev, ep_data);
-	LOG_DBG("evt: XFER_DONE_NORM: EP 0x%02x, data %p", ep_data->cfg.addr, (void *)buf->data);
+	LOG_DBG("evt: XFER_DONE_NORM: EP 0x%02x, data %p", ep_data->cfg.addr, buf ? (void *)buf->data : 0x0);
+	if(buf == 0) {
+	    return;
+	}
 	__ASSERT_NO_MSG(buf != NULL);
 	dwc3_on_xfer_done(dev, ep_data);
 

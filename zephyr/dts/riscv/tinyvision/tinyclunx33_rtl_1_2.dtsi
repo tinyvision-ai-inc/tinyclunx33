@@ -11,7 +11,7 @@
  */
 
 #ifndef CLOCK_FREQ
-#define CLOCK_FREQ 60000000
+#define CLOCK_FREQ 65000000
 #endif
 
 #include "tinyclunx33_rtl.dtsi"
