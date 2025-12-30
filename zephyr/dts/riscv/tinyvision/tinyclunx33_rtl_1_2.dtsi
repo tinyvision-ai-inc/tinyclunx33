@@ -10,10 +10,6 @@
  * They use 0x200000 as boot address.
  */
 
-#ifndef CLOCK_FREQ
-#define CLOCK_FREQ 65000000
-#endif
-
 #include "tinyclunx33_rtl.dtsi"
 #include <mem.h>
 
@@ -69,8 +65,8 @@
 	};
 };
 
-&cpu0 {
-    clock-frequency = <CLOCK_FREQ>;
+&cpu_clock {
+    clock-frequency = < 65000000 >;
 };
 
 &i2c0 {
@@ -79,5 +75,5 @@
 
 &uart0 {
     current-speed = <115200>;
-    clock-frequency = < CLOCK_FREQ >;
+    clocks = < &cpu_clock >;
 };

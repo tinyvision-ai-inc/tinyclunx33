@@ -18,12 +18,20 @@
 		zephyr,shell-uart = &uart0;
 	};
 
+    clocks {
+        cpu_clock: cpu_clock {
+            compatible = "fixed-clock";
+            clock-frequency = < 81000000 >;
+            #clock-cells = < 0x0 >;
+        };
+	};
+
 	cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
 
 		cpu0: cpu@0 {
-			clock-frequency = <80000000>;
+		    clocks = < &cpu_clock >;
 			compatible = "tinyvision,vexriscv-standard", "riscv";
 			device_type = "cpu";
 			reg = <0x0>;
@@ -122,7 +130,9 @@
 				"rxfull";
 			interrupt-parent = <&intc0>;
 			interrupts = <2 10>;
-			current-speed = <156200>;
+
+            current-speed = <115200>;
+            clocks = < &cpu_clock >;
 		};
 
 		i2c0: i2c@e0005000 {

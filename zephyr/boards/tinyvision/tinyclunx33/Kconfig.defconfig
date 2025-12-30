@@ -49,4 +49,4 @@ config UART_LINE_CTRL
 	default y
 
 config SYS_CLOCK_HW_CYCLES_PER_SEC
-    default 65000000
+    default $(dt_node_int_prop_int,/clocks/cpu_clock,clock-frequency)
