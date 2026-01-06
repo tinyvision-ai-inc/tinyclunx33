@@ -67,7 +67,7 @@ Then, pressing "Enter" should give an access to the Zephyr shell, displaying onl
 
 The default jumper setup that is recommended for most uses is the following, the "default" setup:
 
-![](images/tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_photo_front_annotated.jpg)
+![](images/tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_photo_front_annotated.png)
 
 
 ## Parts featured
