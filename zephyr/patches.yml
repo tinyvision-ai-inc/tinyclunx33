@@ -2,13 +2,12 @@ checkout-command: git checkout .
 clean-command: git clean -d -f -x
 patches:
 
-- apply-command: git apply
-  author: Josuah Demangeon
+- author: Josuah Demangeon
   date: '2025-12-18'
   email: me@josuah.net
   module: zephyr
-  path: zephyr_usb3_4_3.patch
-  sha256sum: 357f34b682d495b10a2e08e4a1643919b112e175f6f2e6e8a14261b6a3ed170f
+  path: zephyr_usb3_4_2.patch
+  sha256sum: 6d89d0a3d41de1fac4fdef631c3b8ed9276ea6b8c5d9d4c2d502efb97cdb9e3e
   upstreamable: false
 
 - author: Josuah Demangeon
