@@ -39,6 +39,13 @@ ssh user@192.168.100.100 ecpprog -o 0x000000 -d d:003/003 - <path/to/bitfile.bit
 
 It is possible to replace `0x000000` by a different address, for instance to flash a firmware.
 
+If this fails, it is possible that the default speed is too slow, and it is possible to select
+the divider with the `-k` flag:
+
+```
+ssh user@192.168.100.100 ecpprog -o 0x000000 -d d:003/003 -k 10 - <path/to/bitfile.bit
+```
+
 
 ## Remote power cycle: StarTech.com managed USB HUBs
 
