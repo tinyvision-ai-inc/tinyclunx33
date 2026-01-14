@@ -130,3 +130,35 @@ source for a complete
 
 [`mpremote`](https://pypi.org/project/mpremote/) and
 [`ecpprog`](https://github.com/gregdavill/ecpprog) needs to be installed on the remote host.
+
+
+## GPIO control with the FTDI
+
+The FTDI chips typically used with various tinyCLUNX33 devices (such as the devkit
+or using the UPduino JTAG as adapter) are compatible with the
+[`pyftdi`](https://eblot.github.io/pyftdi/gpio.html) python library.
+
+From the `lsusb` output, identify which FTDI chip type is used (such as FT232H or FT2232H, etc)
+then extract the lowercase part number after the `FT` prefix, such as `2232h`, for use in
+the script below:
+
+```python
+from pyftdi.gpio import GpioAsyncController
+import time
+
+PIN_NUM = 5
+STATE = 0  # 0 for Low, 1 for High
+
+gpio = GpioAsyncController()
+gpio.configure('ftdi://:2232h/1', direction=(1 << PIN_NUM))
+gpio.write(STATE << PIN_NUM)
+gpio.close()
+```
+
+Upon running the script, this will configure the GPIO in the selected state.
+
+This can be used for power cycling the board, or controlling the GPIO state.
+
+UART and GPIO cannot be used simultaneously: once `gpio.close()` is called,
+the USB FTDI interface is switched away from GPIO (pins are reset to their
+default value) and allows the UART to be accessed again.
