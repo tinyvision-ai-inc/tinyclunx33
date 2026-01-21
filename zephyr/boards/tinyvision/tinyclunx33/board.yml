@@ -12,3 +12,5 @@ board:
   - name: rtl_1_0
   - name: rtl_1_1
   - name: rtl_1_2
+    variants:
+    - name: slot0

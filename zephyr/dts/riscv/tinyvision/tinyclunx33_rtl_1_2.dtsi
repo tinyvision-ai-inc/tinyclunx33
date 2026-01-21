@@ -15,7 +15,6 @@
 
 / {
 	chosen {
-		zephyr,code-partition = &slot0_partition;
 		zephyr,flash = &flash0;
 		zephyr,flash-controller = &flashctrl;
 	};
@@ -53,14 +52,24 @@
 			reg = <0x000000 0x200000>;
 		};
 
-		slot0_partition: partition@200000 {
-			label = "image-0";
+		boot_partition: partition@200000 {
+			label = "mcuboot";
 			reg =  <0x200000 0x100000>;
 		};
 
-		storage_partition: partition@300000 {
+		slot0_partition: partition@300000 {
+			label = "image-0";
+			reg = <0x300000 0x100000>;
+		};
+
+		slot1_partition: partition@400000 {
+			label = "image-1";
+			reg = <0x400000 0x100000>;
+		};
+
+		storage_partition: partition@500000 {
 			label = "storage";
-			reg = <0x300000 0xC00000>;
+			reg = <0x500000 0xC00000>;
 		};
 	};
 };
