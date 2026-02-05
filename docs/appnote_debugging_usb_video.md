@@ -421,3 +421,84 @@ trb for IN endpoint 0x83 (3 IN)
 
 * `bufsiz=2048` indicate that the buffers did not start to be transferred at all as they are still
   complete with their original size `2048` (does not apply to `ctl=8`).
+
+## Getting USB packets for Wireshark Analysis
+
+We can use `usbmon` interface to capture USB traffic packets that can be analysed in Wireshark.
+In order for this to work `debugfs` has to be enabled in your kernel configuration.
+
+### Prepare the interface
+
+* Mount debugfs
+  ```sh
+  sudo mount -t debugfs none_debugs /sys/kernel/debug/
+  ```
+* Load the `usbmon` module (if built as a module).
+  ```
+  sudo modprobe usbmon
+  ```
+* Verify that bus sockets are present:
+  ```
+  ls /sys/kernel/debug/usb/usbmon
+  ```
+  Example result:
+  ```
+  0s  0u  1s  1t  1u  2s  2t  2u  3s  3t  3u  4s  4t  4u
+  ```
+
+### Identify the bus your device is on
+
+Using, `cat /sys/kernel/debug/usb/devices`, check the T-line of the your desired device.
+```
+T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#= 68 Spd=5000 MxCh= 0
+D:  Ver= 3.20 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  1
+P:  Vendor=1209 ProdID=0001 Rev= 4.02
+S:  Manufacturer=tinyCLUNX33
+C:* #Ifs= 1 Cfg#= 1 Atr=c0 MxPwr=800mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=usb-storage
+E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+```
+`Bus=02` means it is on bus 2. 
+
+`lsusb` can also get you the bus number.
+```
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 097: ID 0403:6014 Future Technology Devices International, Ltd FT232H Single HS USB-UART/FIFO IC
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 002 Device 068: ID 1209:0001 Generic pid.codes Test PID
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 003 Device 080: ID 0925:3881 Lakeview Research Saleae Logic
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+```
+Here it is on bus 2, 
+`Bus 002 Device 068: ID 1209:0001 Generic pid.codes Test PID`
+
+### Listen on interface
+
+Use `cat` to listen on the selected bus.
+```sh
+cat /sys/kernel/debug/usb/usbmon/2u > /tmp/1.mon.out
+```
+
+The process will listen until it is killed.
+
+### Export the capture (if debugging remotely)
+
+Using `scp`, download the file to your local destination.
+
+```sh
+scp username@remote_host:/tmp/1.mon.out remote_usb_capture.out`
+```
+
+### Convert the usbmon capture to `.pcap`
+
+Using [this](https://github.com/johnkeeping/usbmon2pcap) conversion tool, it needs 
+`libpcap` to compile.
+
+Convert with
+```sh
+./usbmon2pcap -o usb_capture.pcap remote_usb_capture.out`
+```
+
+The output can be imported to wireshark for analysis.
