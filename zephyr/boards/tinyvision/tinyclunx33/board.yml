@@ -1,14 +1,16 @@
 board:
   name: tinyclunx33
+  full_name: tinyVision.ai tinyCLUNX33
   vendor: tinyvision
   revision:
     format: custom
     default: "rev2"
+    exact: true
     revisions:
       - name: "rev1"
       - name: "rev2"
       - name: "rev3"
   socs:
-  - name: rtl_1_0
-  - name: rtl_1_1
-  - name: rtl_1_2
+    - name: rtl_1_0
+    - name: rtl_1_1
+    - name: rtl_1_2
