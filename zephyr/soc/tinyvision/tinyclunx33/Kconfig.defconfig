@@ -16,7 +16,7 @@ config SHELL_BACKEND_SERIAL_CHECK_DTR
 # Does not use the video_enqueue/dequeue() interface, no need for any video or UVC buffer
 
 config VIDEO_BUFFER_POOL_SZ_MAX
-	default 0
+	default 1
 
 config VIDEO_BUFFER_POOL_NUM_MAX
 	default 0
