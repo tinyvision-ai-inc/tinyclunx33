@@ -1,8 +1,0 @@
-# Copyright (c) 2024 tinyVision.ai Inc.
-# SPDX-License-Identifier: Apache-2.0
-
-if UDC_DRIVER
-
-rsource "Kconfig.dwc3"
-
-endif # UDC_DRIVER

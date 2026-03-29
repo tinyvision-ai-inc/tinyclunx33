@@ -1,7 +1,0 @@
-config CLOCK_CONTROL_SI5351
-  bool "SkyWorks Si5351 PLL"
-  default y
-  depends on DT_HAS_SKYWORKS_SI5351_ENABLED
-  select I2C
-  help
-    Enable SkyWorks Si5351 PLL

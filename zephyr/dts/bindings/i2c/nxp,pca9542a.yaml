@@ -1,9 +1,0 @@
-description: NXP PCA9542A 2-channel multiplexer
-
-compatible: "nxp,pca9542a"
-
-include: i2c-device.yaml
-
-child-binding:
-  compatible: "nxp,pca9542a-channel"
-  include: i2c-controller.yaml
