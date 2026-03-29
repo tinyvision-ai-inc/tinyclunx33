@@ -1,5 +1,0 @@
-if(CONFIG_CORTEX_M_SYSTICK)
-    target_sources(app PRIVATE bench_cortex_m_systick.c)
-else()
-    message(FATAL_ERROR "Unknown timer driver selected!")
-endif()

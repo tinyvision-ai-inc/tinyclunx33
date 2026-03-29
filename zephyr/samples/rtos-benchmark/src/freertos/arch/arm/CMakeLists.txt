@@ -1,5 +1,0 @@
-if (CONFIG_CPU_CORTEX_M)
-    add_subdirectory(cortex_m)
-else()
-    message(FATAL_ERROR "Unknown ARM processor!")
-endif()

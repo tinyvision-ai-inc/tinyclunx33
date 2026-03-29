@@ -1,8 +1,0 @@
-# Copyright (c) 2025 tinyVision.ai Inc.
-# SPDX-License-Identifier: Apache-2.0
-
-if VIDEO
-
-rsource "Kconfig.imx219"
-
-endif
