@@ -12,8 +12,8 @@ Lattice Semiconductor, tinyVision.ai provides:
   I2C controller, and application-specific video processing elements,
   which can be controlled from the CPU.
 
-* **Zephyr integration** through a
-  [`tinyclunx33`](https://github.com/tinyvision-ai-inc/tinyclunx33_sdk)
+* **Zephyr integration** through
+  [`priv-tvai-usb`](https://github.com/tinyvision-ai-inc/priv-tvai-usb)
   providing a working base system featuring an USB stack, USB23 driver,
   an USB Video Class and everything needed to provide end-to-end
   connectivity with host application over USB3 such as a video feed.

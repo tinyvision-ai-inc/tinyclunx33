@@ -86,7 +86,7 @@ enumeration and subsequent transfer of data with the USB endpoints.
 ## Zephyr integration
 
 A
-[Zephyr driver](https://github.com/tinyvision-ai-inc/tinyclunx33/blob/main/zephyr/drivers/usb/udc/udc_dwc3.c)
+[Zephyr driver](https://github.com/tinyvision-ai-inc/priv-tvai-usb/blob/main/zephyr/drivers/usb/udc/udc_dwc3.c)
 (private repository for now) for the Lattice USB23 core was written, which is comparable in hardware
 interface with the Synopsys DWC3 core, which is used as specification the driver.
 
@@ -100,10 +100,8 @@ known as
 It complies to the Zephyr driver API, and the general documentation can be used
 for configuring USB.
 
-TODO: Send a merge request for the Zephyr driver and link it there
-
 An example Zephyr firmware with the USB core enabled is provided as example:
-[`zepyr_cdc_raw`](https://github.com/tinyvision-ai-inc/tinyclunx33/tree/main/firmware/zephyr_cdc_raw).
+[`zepyr_cdc_raw`](https://github.com/tinyvision-ai-inc/priv-tvai-usb/tree/main/firmware/zephyr_cdc_raw).
 
 
 ## Parts featured

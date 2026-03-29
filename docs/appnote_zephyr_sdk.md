@@ -61,10 +61,10 @@ Assuming a Board Rev2, a Devkit Rev2, and SoC RTLv1.0.3 being used:
    ```
 
 5. Build a sample application from this example repository, for instance `zephyr_cdc_raw` for
-   [RTLv1.0.3](https://github.com/tinyvision-ai-inc/tinyclunx33/releases/tag/rtl_1_0_3).
+   [RTLv1.0.3](https://github.com/tinyvision-ai-inc/priv-tvai-usb/releases/tag/rtl_1_0_3).
    ```
-   cd tinyclunx33/firmware/zephyr_cdc_raw
-   west build --board tinyclunx33@rev2/rtl_1_0
+   cd priv-tvai-usb/zephyr/samples/usb_cdc_raw
+   west build --board tinyclunx33@rev2/rtl_1_1
    ```
 
 6. Then, program the firmware into the devkit, with the DEBUG interface connected.
@@ -91,7 +91,7 @@ This app note describes the particular Zephyr configuration layout of the tinyCL
 The tinyCLUNX33 platform consists of several elements stacked on each others:
 
 * **System-on-Chip (SoC)**
-  ([`soc/tinyvision/tinyclunx33`](https://github.com/tinyvision-ai-inc/tinyclunx33/tree/zephyr/main/soc/tinyvision/tinyclunx33)):
+  ([`soc/tinyvision/tinyclunx33`](https://github.com/tinyvision-ai-inc/priv-tvai-usb/tree/main/zephyr/soc/tinyvision/tinyclunx33)):
   describing the peripherals implemented by the FPGA. There is one SoC version for each FPGA system
   image version. Defined at the Zephyr level as an
   [SoC](https://docs.zephyrproject.org/latest/hardware/porting/soc_porting.html).
@@ -114,11 +114,11 @@ hardware or RTL. The `west build` command allow to specify which version exactly
 
 The top level definition of the devicetree happens in the board directory, but these are only
 1-line wrappers over the full configuration, located in the
-[`dts/riscv/tinyvision`](https://github.com/tinyvision-ai-inc/tinyclunx33/tree/main/zephyr/dts/riscv/tinyvision)
+[`dts/riscv/tinyvision`](https://github.com/tinyvision-ai-inc/priv-tvai-usb/tree/main/zephyr/dts/riscv/tinyvision)
 directory where all the content is:
 
 * **`tinyclunx33_rtl_...`:** in the
-  [public repo](https://github.com/tinyvision-ai-inc/tinyclunx33/tree/main/zephyr/dts/riscv/tinyvision/)
+  [public repo](https://github.com/tinyvision-ai-inc/priv-tvai-usb/tree/main/zephyr/dts/riscv/tinyvision/)
   These files contain the top-level configuration for the various SoCs, describing all their content
   except the video-related content.
 
@@ -296,7 +296,7 @@ If nothing comes through the UART, see the
 section.
 
 If getting any issue reproducing results, the
-[CI job](https://github.com/tinyvision-ai-inc/tinyclunx33/actions/workflows/zephyr.yml)
+[CI job](https://github.com/tinyvision-ai-inc/priv-tvai-usb/actions/workflows/zephyr.yml)
 defined
-[here](https://github.com/tinyvision-ai-inc/tinyclunx33/blob/main/.github/workflows/zephyr.yml)
+[here](https://github.com/tinyvision-ai-inc/priv-tvai-usb/blob/main/.github/workflows/zephyr.yml)
 will act as a verifiable and reproducible reference.
