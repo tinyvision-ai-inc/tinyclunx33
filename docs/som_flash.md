@@ -10,7 +10,7 @@ In the default RTL, the flash is mapped at address `0x2000_0000`.
 
 ```
 0x2000_0000 -- First address of FPGA bitfile
-0x2010_0000 -- First address of Zephyr firmware (optional)
+0x2020_0000 -- First address of Zephyr firmware (optional)
 0x20*0_0000 -- Free area at the end of the flash for custom data
 ```
 
@@ -83,17 +83,15 @@ TODO: hook the QSPI bus as a regular SPI peripheral
 
 ## Zephyr integration
 
-Inside the flash, the Zephyr firmware is written at offset `0x0010_0000`.
+Inside the flash, the Zephyr firmware is written at offset `0x0020_0000`.
 
-So the final start address of the Zephyr firmware is `0x2010_0000`.
+So the final start address of the Zephyr firmware is `0x2020_0000`.
 
 This is integrated into the Zephyr DeviceTree as a flash controller entry:
 
 ```
-flash0: flash@20100000 {
-	reg = <0x20100000 0x100000>;
-	compatible = "soc-nv-flash";
-	status = "okay";
+flash0: flash@20200000 {
+	reg = <0x20200000 0x100000>;
 };
 ```
 
