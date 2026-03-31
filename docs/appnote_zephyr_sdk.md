@@ -300,3 +300,17 @@ If getting any issue reproducing results, the
 defined
 [here](https://github.com/tinyvision-ai-inc/priv-tvai-usb/blob/main/.github/workflows/zephyr.yml)
 will act as a verifiable and reproducible reference.
+
+### SDK-related errors version
+
+Some errors might still be expected to expect around the SDK version, with the release of the Zephyr SDK v1.0.0:
+```
+  Could not find a configuration file for package "Zephyr-sdk" that is
+  compatible with requested version "0.16".
+
+  The following configuration files were considered but not accepted:
+
+    /home/vrangan/zephyr-sdk-1.0.0/cmake/Zephyr-sdkConfig.cmake, version: 1.0.0
+```
+
+In which case, running `west sdk install` can help installing a more recent version of the Zephyr SDK.
