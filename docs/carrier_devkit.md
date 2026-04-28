@@ -69,6 +69,8 @@ The default jumper setup that is recommended for most uses is the following, the
 
 ![](images/tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_photo_front_annotated.png)
 
+@warning Devkits with recent RTL release will have I2C misbehave unless J12 (near the "DATA" USB connector) is added (because the address selection pin is floating without it). Make sure this 2-pin connector has a jumper inserted.
+
 
 ## Parts featured
 
