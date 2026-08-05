@@ -175,10 +175,10 @@ Make sure that no wire are connected to the flash debug headers on the Devkit.
 If the RTL interefer with these signals, such as a wrong pinout, you may then:
 
 1. Disconnect all USB cables to cut the power
-2. Hold the SW2 button down,
+2. Hold the SW3 button down,
 3. Connect the FTDI debug USB interface to the host.
 4. Launch the programming command again.
-5. Release the SW2 button only now.
+5. Release the SW3 button only now.
 
 This should ensure that the FPGA stays down as the FTDI operates.
 
