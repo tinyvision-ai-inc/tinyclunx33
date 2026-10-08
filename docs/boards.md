@@ -4,23 +4,14 @@
 
 ---
 
-**Rev1:**
-[Assembly](tinyCLUNX33_SoM_compute_Rev1_assembly.pdf) |
-[Schematic](tinyCLUNX33_SoM_compute_Rev1_schematic.pdf) |
-`tinyCLUNX33`
+**Rev3:**
+[Assembly](tinyCLUNX33_SoM_compute_Rev3_assembly.pdf) |
+[Schematic](tinyCLUNX33_SoM_compute_Rev3_schematic.pdf) |
+[STEP](tinyCLUNX33_SoM_compute_Rev3_step.zip) |
+`tinyCLUNX33-A v3.0`
 
-![](tinyCLUNX33_SoM_compute_Rev1_photo_front.png)
-![](tinyCLUNX33_SoM_compute_Rev1_photo_back.png)
-
----
-
-**Rev2:**
-[Assembly](tinyCLUNX33_SoM_compute_Rev2_assembly.pdf) |
-[Schematic](tinyCLUNX33_SoM_compute_Rev2_schematic.pdf) |
-`tinyCLUNX33-A`
-
-![](tinyCLUNX33_SoM_compute_Rev2_photo_front.jpg)
-![](tinyCLUNX33_SoM_compute_Rev2_photo_back.jpg)
+![](tinyCLUNX33_SoM_compute_Rev3_photo_front.jpg)
+![](tinyCLUNX33_SoM_compute_Rev3_photo_back.jpg)
 
 ---
 
@@ -29,13 +20,14 @@
 
 ---
 
-**Rev2:**
-[Assembly](tinyCLUNX33_SoM_connectivity_Rev2_assembly.pdf) |
-[Schematic](tinyCLUNX33_SoM_connectivity_Rev2_schematic.pdf) |
-for SoM Rev2 | `tinyCLUNX33-B`
+**Rev3:**
+[Assembly](tinyCLUNX33_SoM_connectivity_Rev3_assembly.pdf) |
+[Schematic](tinyCLUNX33_SoM_connectivity_Rev3_schematic.pdf) |
+[STEP](tinyCLUNX33_SoM_connectivity_Rev3_step.zip) |
+for SoM Rev3 | `tinyCLUNX33-B v3.0`
 
-![](tinyCLUNX33_SoM_connectivity_Rev2_photo_front.jpg)
-![](tinyCLUNX33_SoM_connectivity_Rev2_photo_back.jpg)
+![](tinyCLUNX33_SoM_connectivity_Rev3_photo_front.jpg)
+![](tinyCLUNX33_SoM_connectivity_Rev3_photo_back.jpg)
 
 ---
 
