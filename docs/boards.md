@@ -66,18 +66,6 @@ for SoM Rev2 | `tiny SoM Developer Kit v4.0`
 
 ---
 
-**Rev3:**
-[Assembly](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_assembly.pdf) |
-[Schematics](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_schematic.pdf) |
-for SoM Rev2 | `tinyDualRPi MIPI I/O Rev3`
-
-![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_photo_front.jpg)
-![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_photo_back.jpg)
-
-- The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
-
----
-
 **Rev4:**
 [Assembly](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_assembly.pdf) |
 [Schematics](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_schematic.pdf) |
