@@ -44,26 +44,14 @@ for SoM Rev2 | `tinyCLUNX33-B`
 
 ---
 
-**Rev1:**
-[Assembly](tinyCLUNX33_MIPI_to_USB3_devkit_Rev1_assembly.pdf) |
-[Schematic](tinyCLUNX33_MIPI_to_USB3_devkit_Rev1_schematic.pdf) |
-for SoM Rev1 | `tiny SoM Developer Kit`
+**Rev3:**
+[Assembly](tinyCLUNX33_MIPI_to_USB3_devkit_Rev3_assembly.pdf) |
+[Schematics](tinyCLUNX33_MIPI_to_USB3_devkit_Rev3_schematic.pdf) |
+for SoM Rev2 | `tiny SoM Developer Kit v3.0`
 
-![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev1_photo_front.png)
+![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev3_photo_front.jpg)
+![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev3_photo_back.jpg)
 
-- The QSE connector pinout is custom.
-- The module connector pinout is compatible with the tinyCLUNX33 SoM Rev1.
-
----
-
-**Rev2:**
-[Assembly](tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_assembly.pdf) |
-[Schematics](tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_schematic.pdf) |
-for SoM Rev2 | `tiny SoM Developer Kit v2.0`
-
-![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev2_photo_front.jpg)
-
-- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
 - The module connector pinout is compatible with the tinyCLUNX33 SoM Rev2.
 
 ---
@@ -77,26 +65,12 @@ for SoM Rev2 | `tiny SoM Developer Kit v4.0`
 ![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev4_photo_front.png)
 ![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev4_photo_back.png)
 
-- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
 - The module connector pinout is compatible with the tinyCLUNX33 SoM Rev2.
 
 ---
 
 
 ## tinyCLUNX33 adapter MIPI I/O to QSE
-
----
-
-**Rev2:**
-[Assembly](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_assembly.pdf) |
-[Schematics](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_schematic.pdf) |
-for SoM Rev1 | `tinyDualRPi MIPI I/O Rev2`
-
-![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_photo_front.png)
-![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev2_photo_back.png)
-
-- The QSE connector pinout is custom.
-- The FPC connector pinout is [Raspberry Pi Camera 15 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
 
 ---
 
@@ -108,7 +82,6 @@ for SoM Rev2 | `tinyDualRPi MIPI I/O Rev3`
 ![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_photo_front.jpg)
 ![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev3_photo_back.jpg)
 
-- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
 - The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
 
 ---
@@ -121,26 +94,12 @@ for SoM Rev2 | `tinyDualRPi MIPI I/O Rev4`
 ![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_photo_front.jpg)
 ![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_photo_back.jpg)
 
-- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
 - The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
 
 ---
 
 
 ## tinyCLUNX33 adapter dual MIPI to QSE
-
----
-
-**Rev2:**
-[Assembly](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_assembly.pdf) |
-[Schematics](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_schematic.pdf) |
-for SoM Rev1 | `tinyDualRPi adapter Rev2`
-
-![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_photo_front.png)
-![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev2_photo_back.png)
-
-- The QSE connector pinout is custom.
-- The FPC connector pinout is [Raspberry Pi Camera 15 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
 
 ---
 
@@ -152,7 +111,6 @@ for SoM Rev2 | `tinyDualRPi adapter Rev3`
 ![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_photo_front.jpg)
 ![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_photo_back.jpg)
 
-- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
 - The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
 
 ---
@@ -165,7 +123,40 @@ for SoM Rev2 | `tinyDualRPi adapter Rev4`
 ![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev4_photo_front.jpg)
 ![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev4_photo_back.jpg)
 
-- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
+- The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
+
+---
+
+
+## tinyCLUNX33 adapter 4-lane MIPI to QSE
+
+---
+
+**Rev1:**
+[Assembly](tinyCLUNX33_adapter_4Lane_MIPI_in_to_QSE_Rev1_assembly.pdf) |
+[Schematics](tinyCLUNX33_adapter_4Lane_MIPI_in_to_QSE_Rev1_schematic.pdf) |
+for SoM Rev2 | `tiny 4-Lane MIPI adapter Rev 1`
+
+![](tinyCLUNX33_adapter_4Lane_MIPI_in_to_QSE_Rev1_photo_front.jpg)
+![](tinyCLUNX33_adapter_4Lane_MIPI_in_to_QSE_Rev1_photo_back.jpg)
+
+- The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
+
+---
+
+
+## tinyCLUNX33 tinyCamera
+
+---
+
+**Rev2:**
+[Assembly](tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev2_assembly.pdf) |
+[Schematics](tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev2_schematic.pdf) |
+`tinyCamera v2.0`
+
+![](tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev2_photo_front.jpg)
+![](tinyCLUNX33_reference_design_dual_MIPI_to_USB_Rev2_photo_back.jpg)
+
 - The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
 
 ---
