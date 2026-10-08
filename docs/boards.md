@@ -68,6 +68,20 @@ for SoM Rev2 | `tiny SoM Developer Kit v2.0`
 
 ---
 
+**Rev4:**
+[Assembly](tinyCLUNX33_MIPI_to_USB3_devkit_Rev4_assembly.pdf) |
+[Schematics](tinyCLUNX33_MIPI_to_USB3_devkit_Rev4_schematic.pdf) |
+[3D](tinyCLUNX33_MIPI_to_USB3_devkit_Rev4_3d.pdf) |
+for SoM Rev2 | `tiny SoM Developer Kit v4.0`
+
+![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev4_photo_front.png)
+![](tinyCLUNX33_MIPI_to_USB3_devkit_Rev4_photo_back.png)
+
+- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
+- The module connector pinout is compatible with the tinyCLUNX33 SoM Rev2.
+
+---
+
 
 ## tinyCLUNX33 adapter MIPI I/O to QSE
 
@@ -99,6 +113,19 @@ for SoM Rev2 | `tinyDualRPi MIPI I/O Rev3`
 
 ---
 
+**Rev4:**
+[Assembly](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_assembly.pdf) |
+[Schematics](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_schematic.pdf) |
+for SoM Rev2 | `tinyDualRPi MIPI I/O Rev4`
+
+![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_photo_front.jpg)
+![](tinyCLUNX33_adapter_MIPI_IO_to_QSE_Rev4_photo_back.jpg)
+
+- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
+- The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
+
+---
+
 
 ## tinyCLUNX33 adapter dual MIPI to QSE
 
@@ -124,6 +151,19 @@ for SoM Rev2 | `tinyDualRPi adapter Rev3`
 
 ![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_photo_front.jpg)
 ![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev3_photo_back.jpg)
+
+- The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
+- The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
+
+---
+
+**Rev4:**
+[Assembly](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev4_assembly.pdf) |
+[Schematics](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev4_schematic.pdf) |
+for SoM Rev2 | `tinyDualRPi adapter Rev4`
+
+![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev4_photo_front.jpg)
+![](tinyCLUNX33_adapter_dual_MIPI_in_to_QSE_Rev4_photo_back.jpg)
 
 - The QSE connector pinout is [Syzygy](https://syzygyfpga.io/) compatible
 - The FPC connector pinout is [Raspberry Pi Camera 22 pin](https://www.arducam.com/raspberry-pi-camera-pinout/) compatible
